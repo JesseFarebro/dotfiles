@@ -130,13 +130,6 @@ return require('packer').startup(function()
     end
   }
 
-  -- Status Bar
-  --use {
-  --  'glepnir/galaxyline.nvim',
-  --  config = 'require("status-bar")',
-  --  requires = {'kyazdani42/nvim-web-devicons'}
-  --}
-
   -- Status bar
   use {
     'hoob3rt/lualine.nvim',

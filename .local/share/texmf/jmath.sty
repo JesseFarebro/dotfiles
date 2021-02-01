@@ -1,5 +1,49 @@
-\ProvidesPackage{jessemath}
+% Notation primarily adopted from Ian Goodfellow's notation
+\ProvidesPackage{jmath}
+\RequirePackage{amsmath}
+\RequirePackage{amsfonts}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{mathtools}
 
-\newcommand{\R}{\ensuremath{\mathbb{R}}}
-\newcommand{\C}{\ensuremath{\mathbb{C}}}
-\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+% Functions
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil} % Ceil
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor} % Floor
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert} % Norm
+
+% argmin, argmax
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\DeclareMathOperator{\sign}{sign} % Sign
+\DeclareMathOperator{\Tr}{Tr} % Trace
+\DeclareMathOperator{\diag}{diag} % Diag
+
+% Constants
+\def\eps{\ensuremath{\epsilon}}
+
+% Hadamard product
+\def\had{\ensuremath{\odot}}
+
+% Vectors
+\newcommand{\vec}[1]{\ensuremath{\mathbf{#1}}}
+
+% Matricies
+\newcommand{\mat}[1]{\ensuremath{\mathbf{#1}}}
+
+% Tensors
+\DeclareMathAlphabet{\mathsfit}{\encodingdefault}{\sfdefault}{m}{sl}
+\SetMathAlphabet{\mathsfit}{bold}{\encodingdefault}{\sfdefault}{bx}{n}
+\newcommand{\tens}[1]{\ensuremath{\bm{\mathsfit{#1}}}}
+
+% Sets
+\newcommand{\set}[1]{\ensuremath{\mathbb{#1}}}
+
+\def\R{\ensuremath{\mathbb{R}}}
+\def\C{\ensuremath{\mathbb{C}}}
+\def\Z{\ensuremath{\mathbb{Z}}}
+\def\Q{\ensuremath{\mathbb{Q}}}
+
+% Graphs
+\newcommand{\graph}[1]{\ensuremath{\mathcal{#1}}}
+\newcommand{\parents}{\ensuremath{Pa}}
