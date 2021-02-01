@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Changes vim, alacritty theme
+# Usage: terminal-theme (dark|light)
+
+$PYENV_ROOT/versions/neovim3/bin/python - << EOF
+import os
+from pynvim import attach
+try:
+  nvim = attach('socket', path=os.environ["NVIM_LISTEN_ADDRESS"])
+  nvim.options["background"] = "$1"
+except:
+  pass
+EOF
+
+sed -i'.bak' -e "s/^colors:.*$/colors: \*$1/g" ~/.config/alacritty/alacritty.yml
+sed -i'.bak' -e "s/^set background.*$/set background=$1/g" ~/.config/nvim/config/theme.vim

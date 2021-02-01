@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+import click
+import subprocess
+import xml.etree.ElementTree as ElementTree
+
+
+@click.command()
+@click.option("--nodes", multiple=True, type=int)
+def main(nodes):
+    if len(nodes) == 0:
+        nodes = [*range(1, 6), *range(10, 15)]
+    nodes = list(map(lambda node: f"{node:02d}", nodes))
+
+    for node in nodes:
+        node = "eureka%s" % node
+        try:
+            result = subprocess.run(
+                ["ssh", node, "'nvidia-smi'", "-q", "-x"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
+            )
+            xml = ElementTree.fromstring(result.stdout.decode("utf-8"))
+        except Exception:
+            continue
+
+        free = []
+        for gpu_id, gpu in enumerate(xml.getiterator("gpu")):
+            name = gpu.find("product_name").text
+            processes = gpu.find("processes")
+            if len(processes) == 0:
+                free += [(gpu_id, name)]
+
+        ids = list(zip(*free))[0]
+        print(f"{node}: ", end="")
+        print(*ids)
+        for gpu_id, name in free:
+            print(f"\t{gpu_id}: {name}")
+
+
+if __name__ == "__main__":
+    main()

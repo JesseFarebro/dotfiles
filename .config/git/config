@@ -1,0 +1,32 @@
+[hub]
+  protocol = https
+
+[user]
+  name = Jesse Farebrother
+  email = jessefarebro@gmail.com
+  signingkey = 39CF2568
+
+[color]
+  ui = true
+
+[core]
+  editor = vim
+  autocrlf = false
+
+[alias]
+  addnw=!sh -c 'git diff -U0 -w --no-color "$@" | git apply --cached --ignore-whitespace --unidiff-zero -'
+
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+
+[gpg]
+  program = /usr/local/bin/gpg
+
+[commit]
+  gpgsign = true
+
+[tag]
+  forceSignAnnotated = true
