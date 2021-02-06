@@ -93,7 +93,7 @@ lsp.texlab.setup{
       build = {
           onSave = true,
           executable = "latexmk",
-          args = { "-pdf", "-pvc", "-interaction=nonstopmode", "-synctex=1", "--outdir build" },
+          args = { "-pvc", "-output-directory=build" },
           outputDirectory = "build",
       },
       forwardSearch = {
@@ -102,7 +102,7 @@ lsp.texlab.setup{
           onSave = true,
       },
       lint = {
-          onChange = true,
+          onChange = false,
       }
     }
   },

@@ -5,11 +5,155 @@
 \RequirePackage{amssymb}
 \RequirePackage{amsthm}
 \RequirePackage{mathtools}
+\RequirePackage{bm}
+\RequirePackage{relsize}
+\RequirePackage{mleftright}
+\RequirePackage{xparse}
+
+% TODO: \widebar
+
+\DeclarePairedDelimiter{\parens}{\lparen}{\rparen}
 
 % Functions
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil} % Ceil
 \DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor} % Floor
-\DeclarePairedDelimiter{\norm}{\lVert}{\rVert} % Norm
+%\DeclarePairedDelimiter{\innerp}{\langle}{\rangle} % Inner product
+
+\NewDocumentCommand{\innerp}{m m}{%
+  \mathord{
+    \mathlarger{
+      \mleft\langle\vphantom{#1}\vphantom{#2}\mright.
+    }
+  }
+  #1
+  ,\:
+  #2
+  \mathord{
+    \mathlarger{
+      \mleft.\vphantom{#1}\vphantom{#2}\mright\rangle
+    }
+  }
+}
+
+% Probability macros
+\NewDocumentCommand{\Prob}{e{_}m}{%
+  \newcommand\given{\nonscript\:\vert\nonscript\:\mathopen{}}
+  \mathop{}\!P%
+  \IfValueT{#1}{_{#1}}%
+  \mathord{
+    \mathlarger{
+      \mleft\lparen\vphantom{#2}\mright.
+    }
+  }
+  #2
+  \mathord{
+    \mathlarger{
+      \mleft.\vphantom{#2}\mright\rparen
+    }
+  }
+}
+
+% Expected value
+\NewDocumentCommand{\E}{e{_}m}{%
+  \newcommand\given{\nonscript\:\vert\nonscript\:\mathopen{}}
+  \mathop{}\!\mathbb{E}%
+  \IfValueT{#1}{_{#1}}%
+  \mathord{
+    \mathlarger{
+      \mleft\lbrack\vphantom{#2}\mright.
+    }
+  }
+  #2
+  \mathord{
+    \mathlarger{
+      \mleft.\vphantom{#2}\mright\rbrack
+    }
+  }
+}
+
+\NewDocumentCommand{\Var}{e{_}m}{%
+  \newcommand\given{\nonscript\:\vert\nonscript\:\mathopen{}}
+  \mathop{}\!\mathrm{Var}%
+  \IfValueT{#1}{_{#1}}%
+  \mathord{
+    \mathlarger{
+      \mleft\lbrack\vphantom{#2}\mright.
+    }
+  }
+  #2
+  \mathord{
+    \mathlarger{
+      \mleft.\vphantom{#2}\mright\rbrack
+    }
+  }
+}
+
+\NewDocumentCommand{\Cov}{e{_}m}{%
+  \newcommand\given{\nonscript\:\vert\nonscript\:\mathopen{}}
+  \mathop{}\!\mathrm{Cov}%
+  \IfValueT{#1}{_{#1}}%
+  \mathord{
+    \mathlarger{
+      \mleft\lbrack\vphantom{#2}\mright.
+    }
+  }
+  #2
+  \mathord{
+    \mathlarger{
+      \mleft.\vphantom{#2}\mright\rbrack
+    }
+  }
+}
+
+\NewDocumentCommand{\Bias}{e{_}m}{%
+  \newcommand\given{\nonscript\:\vert\nonscript\:\mathopen{}}
+  \mathop{}\!\mathrm{Bias}%
+  \IfValueT{#1}{_{#1}}%
+  \mathord{
+    \mathlarger{
+      \mleft\lbrack\vphantom{#2}\mright.
+    }
+  }
+  #2
+  \mathord{
+    \mathlarger{
+      \mleft.\vphantom{#2}\mright\rbrack
+    }
+  }
+}
+
+\NewDocumentCommand{\KL}{m m}{%
+  \mathop{}\!D_\mathrm{KL}%
+  \mathord{
+    \mathlarger{
+      \mleft\lparen\vphantom{#1}\mright.
+    }
+  }
+  #1
+  \;\Vert\;
+  #2
+  \mathord{
+    \mathlarger{
+      \mleft.\vphantom{#2}\mright\rparen
+    }
+  }
+}
+
+\NewDocumentCommand{\norm}{me{_^}}{%
+  \mathord{
+    \mathlarger{
+      \mleft\lVert\vphantom{#1}\mright.
+    }
+  }
+  #1
+  \mathord{
+    \mathlarger{
+      \mleft.\vphantom{#1}\mright\rVert
+    }
+  }
+  \IfValueT{#2}{_#2}
+  \IfValueT{#3}{^#3}
+}
 
 % argmin, argmax
 \DeclareMathOperator*{\argmax}{arg\,max}
@@ -20,30 +164,38 @@
 \DeclareMathOperator{\diag}{diag} % Diag
 
 % Constants
-\def\eps{\ensuremath{\epsilon}}
+\def\eps{\epsilon}
 
 % Hadamard product
-\def\had{\ensuremath{\odot}}
+\def\had{\odot}
 
 % Vectors
-\newcommand{\vec}[1]{\ensuremath{\mathbf{#1}}}
+\providecommand\vec{}
+\renewcommand\vec[1]{\mathbf{#1}}
 
 % Matricies
-\newcommand{\mat}[1]{\ensuremath{\mathbf{#1}}}
+\providecommand\mat{}
+\renewcommand\mat[1]{\mathbf{#1}}
 
 % Tensors
 \DeclareMathAlphabet{\mathsfit}{\encodingdefault}{\sfdefault}{m}{sl}
 \SetMathAlphabet{\mathsfit}{bold}{\encodingdefault}{\sfdefault}{bx}{n}
-\newcommand{\tens}[1]{\ensuremath{\bm{\mathsfit{#1}}}}
+
+\providecommand\tens{}
+\renewcommand\tens[1]{\bm{\mathsfit{#1}}}
 
 % Sets
-\newcommand{\set}[1]{\ensuremath{\mathbb{#1}}}
+\providecommand\set{}
+\renewcommand\set[1]{\mathbb{#1}}
 
-\def\R{\ensuremath{\mathbb{R}}}
-\def\C{\ensuremath{\mathbb{C}}}
-\def\Z{\ensuremath{\mathbb{Z}}}
-\def\Q{\ensuremath{\mathbb{Q}}}
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+\def\Z{\mathbb{Z}}
+\def\Q{\mathbb{Q}}
 
 % Graphs
-\newcommand{\graph}[1]{\ensuremath{\mathcal{#1}}}
-\newcommand{\parents}{\ensuremath{Pa}}
+\providecommand\graph{}
+\renewcommand\graph[1]{\mathcal{#1}}
+
+\providecommand\parents{}
+\renewcommand\parents{Pa}

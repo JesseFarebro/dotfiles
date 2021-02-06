@@ -1,1 +1,17 @@
-$pdf_previewer = 'open -a Skim';
+# Compiler modes
+$pdf_mode = 1;
+$dvi_mode = 0;
+$postscript_mode = 0;
+
+# Use bibtex if available
+$bibtex_use = 1;
+
+# Compile command
+$pdf_mode = 4;
+$lualatex = 'lualatex -synctex=1 -file-line-error -halt-on-error -shell-escape --interaction=nonstopmode %O %S';
+
+# PDF Viewer
+$pdf_previewer = 'open -a Skim -g';
+
+# Include additional generated file extensions
+push @generated_exts, 'synctex.gz';
