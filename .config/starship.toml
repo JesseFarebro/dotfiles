@@ -2,35 +2,16 @@
 success_symbol = "λ(bold green)"
 error_symbol = "λ(bold red)"
 
-[aws]
-disabled = true
-symbol = " "
-
 [battery]
 full_symbol = ""
 charging_symbol = ""
 discharging_symbol = ""
 
-[conda]
-disabled = true
-symbol = " "
-
 [git_status]
-disabled = true
+disabled = false
+
 [git_branch]
 symbol = " "
-
-[golang]
-disabled = true
-symbol = " "
-
-[hg_branch]
-disabled = true
-symbol = " "
-
-[java]
-disabled = true
-symbol = " "
 
 [memory_usage]
 symbol = " "
@@ -38,20 +19,32 @@ symbol = " "
 [nodejs]
 symbol = " "
 
-[package]
-disabled = true
-symbol = " "
-
-[php]
-disabled = true
-symbol = " "
-
 [python]
 symbol = " "
 
-[ruby]
-disabled = true
-symbol = " "
-
 [rust]
 symbol = " "
+
+[ruby]
+disabled = true
+
+[php]
+disabled = true
+
+[package]
+disabled = true
+
+[java]
+disabled = true
+
+[conda]
+disabled = true
+
+[aws]
+disabled = true
+
+[hg_branch]
+disabled = true
+
+[golang]
+disabled = true
