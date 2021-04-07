@@ -7,6 +7,7 @@ g['loaded_python_provider'] = false
 g['python3_path'] = os.getenv('PYENV_ROOT')..'/versions/neovim3'
 g['python3_host_prog'] = g['python3_path']..'/bin/python'
 
+-- Leader
 map('n', '<space>', '<Nop>')
 g.mapleader = ' '
 
@@ -28,7 +29,7 @@ opt('o', 'autoread', true)
 opt('o', 'backup', false)
 opt('o', 'swapfile', false)
 opt('o', 'undodir', os.getenv('XDG_RUNTIME_DIR')..'/nvim-undodir')
-opt('o', 'undofile', true)
+opt('b', 'undofile', true)
 
 -- Indentation
 opt('b', 'expandtab', true)
@@ -37,16 +38,19 @@ opt('b', 'tabstop', indent)
 opt('b', 'smartindent', true)
 opt('o', 'shiftround', true)
 opt('w', 'wrap', true)
+opt('w', 'conceallevel', 0)
 
 -- Visuals
 opt('o', 'termguicolors', true)
 opt('o', 'fillchars', 'vert:┃')
 opt('w', 'cursorline', true)
 opt('w', 'signcolumn', 'number')
-opt('o', 'updatetime', 100)
+opt('o', 'updatetime', 50)
 opt('o', 'fcs', 'eob: ') -- No tilde
 opt('o', 'clipboard', 'unnamedplus')
 opt('o', 'mouse', 'a')
+opt('o', 'ruler', false)
+opt('o', 'showcmd', false)
 
 -- Splits
 opt('o', 'splitbelow', true)
