@@ -12,6 +12,13 @@ env:
   # available, otherwise 'xterm-256color' is used.
   TERM: alacritty
 
+shell:
+  program: /usr/local/bin/fish
+  args:
+    - -l
+    - -c
+    - "tmux -2 new-session -A -s default"
+
 window:
   # Window dimensions in character columns and lines
   # (changes require restart)
@@ -23,7 +30,7 @@ window:
   # Units are physical pixels; this is not DPI aware.
   # (change requires restart)
   padding:
-    x: 25
+    x: 20
     y: 30
 
   dynamic_padding: true
@@ -47,22 +54,20 @@ draw_bold_text_with_bright_colors: true
 
 # Font configuration (changes require restart)
 font:
-  # The normal (roman) font face to use.
   normal:
-    family: MesloLGS Nerd Font
+    # Line-Gap Medium Dotted Zero (LGMDZ)
+    family: MesloLGSDZ Nerd Font
 
-  # The bold font face
   bold:
-    family: MesloLGS Nerd Font
+    family: MesloLGSDZ Nerd Font
     style: Bold
 
-  # The italic font face
   italic:
-    family: MesloLGS Nerd Font
+    family: MesloLGSDZ Nerd Font
     style: Italic
 
   # Point size of the font
-  size: 14.0
+  size: 14
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
@@ -156,7 +161,7 @@ cursor:
 #
 bell:
   animation: EaseOutExpo
-  duration: 1
+  duration: 0
 
 # Background opacity
 background_opacity: 0.96
