@@ -1,8 +1,16 @@
+# Fish
+set -U fish_greeting
+
 # XDG
 set -Ux XDG_DATA_HOME "$HOME/.local/share"
 set -Ux XDG_CONFIG_HOME "$HOME/.config"
 set -Ux XDG_CACHE_HOME "$HOME/.cache"
 set -Ux XDG_RUNTIME_DIR $TMPDIR"runtime-$USER"
+
+# create XDG_RUNTIME_DIR on login
+if status --is-login
+    mkdir -p $XDG_RUNTIME_DIR
+end
 
 # ncurses
 set -gx TERMINFO "$XDG_DATA_HOME/terminfo"
@@ -21,6 +29,9 @@ set -gx JUPYTER_CONFIG_DIR "$XDG_CONFIG_HOME/jupyter"
 set -gx PYTHON_CONFIG "$XDG_CONFIG_HOME/python"
 set -gx MPLCONFIGDIR "$XDG_CONFIG_HOME/matplotlib"
 set -gx PYLINTHOME "$XDG_CACHE_HOME/pylint"
+set -gx PYTHONSTARTUP "$PYTHON_CONFIG/startup"
+set -gx PYTHON_CFLAGS "-I"(xcrun --show-sdk-path)"/usr/include"
+set -gx PYTHONBREAKPOINT "ipdb.set_trace"
 
 # Aux
 set -gx GNUPGHOME "$XDG_DATA_HOME/gnupg"
@@ -37,7 +48,9 @@ set -g fish_user_paths \
 	$PYENV_ROOT/bin \
 	/usr/local/{bin,sbin}
 
-# create XDG_RUNTIME_DIR on login
-if status --is-login
-    mkdir -p $XDG_RUNTIME_DIR
-end
+# Aux
+set -gx LESSHISTFILE -
+set -gx __CF_USER_TEXT_ENCODING 0x(id -u):0x0:0x52
+
+set -g grc_wrap_commands diff tail gcc g++ ifconfig make mount ping ps tail df
+set -gx FZF_DEFAULT_COMMAND "rg --files --no-ignore --hidden --follow --glob '!.git/*'"
