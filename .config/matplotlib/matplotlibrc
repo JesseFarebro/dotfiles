@@ -12,7 +12,7 @@ font.sans-serif: Computer Modern Roman
 font.monospace: Computer Modern Typewriter
 
 text.usetex: True
-text.latex.preamble: \usepackage{amsmath}
+text.latex.preamble: \usepackage{jmath}
 
 # Lines
 lines.linewidth: 1.5
