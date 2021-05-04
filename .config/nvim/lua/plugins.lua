@@ -16,7 +16,7 @@ return require('packer').startup(function()
     'tpope/vim-surround',
     'tpope/vim-commentary',
     'junegunn/goyo.vim',
-    'beauwilliams/focus.nvim'
+    -- 'beauwilliams/focus.nvim' -- Introduces bug with nvim-tree
   }
 
   -- Tmux
@@ -44,14 +44,7 @@ return require('packer').startup(function()
     }
 
     -- Waiting for tmux absolute centering PR
-    -- use {
-    --   'vimpostor/vim-tpipeline',
-    --   config = function()
-    --     -- g.tpipeline_statusline = '%!tpipeline#stl#line()'
-    --     g.tpipeline_statusline = '%f'
-    --     g.tpipeline_split = 1
-    --   end
-    -- }
+    -- vimposter/vim-tpipeline
   end
 
   -- Git
@@ -126,10 +119,9 @@ return require('packer').startup(function()
         ["y"] = tree_cb("copy")
       }
 
-      cmd [[ autocmd FileType NvimTree setlocal statusline=\  ]]
-      cmd [[ autocmd FileType NvimTree setlocal scl=no ]]
-      cmd [[ autocmd FileType NvimTree hi! Cursor blend=100 ]]
-      cmd [[ autocmd BufEnter,FileType NvimTree set guicursor=n:Cursor/lCursor,v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20 ]]
+      cmd [[ autocmd BufWinEnter NvimTree setlocal scl=no ]]
+      cmd [[ autocmd BufWinEnter NvimTree hi! Cursor blend=100 ]]
+      cmd [[ autocmd BufWinEnter NvimTree set guicursor=n:Cursor/lCursor,v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20 ]]
       cmd [[ autocmd BufLeave,BufWinLeave,WinClosed NvimTree set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20 ]]
       cmd [[ autocmd BufLeave,BufWinLeave,WinClosed NvimTree hi! Cursor blend=NONE ]]
 
@@ -138,27 +130,17 @@ return require('packer').startup(function()
   }
 
   use {
-    "danilamihailov/beacon.nvim",
-    config = function()
-      g.beacon_size = 999
-      g.beacon_minimal_jump = 15
-      g.beacon_shrink = 0
-      g.beacon_fade = 1
-      g.beacon_timeout = 500
-      g.beacon_ignore_buffers = {"help", "terminal", "packer", "startify", "nvim-tree"}
-    end
-  }
-
-  use {
     "lukas-reineke/indent-blankline.nvim", branch = 'lua',
     config = function()
       g.indent_blankline_char = "│"
       g.indent_blankline_space_char = "·"
-      g.indent_blankline_space_char_blankline = "."
+      g.indent_blankline_space_char_blankline = "·"
       g.indent_blankline_show_first_indent_level = false
       g.indent_blankline_show_trailing_blankline_indent = false
       g.indent_blankline_buftype_exclude = {"help", "terminal"}
-      g.indent_blankline_filetype_exclude = {"text", "markdown", "startify", "packer", "TelescopePrompt"}
+      g.indent_blankline_filetype_exclude = {"text", "markdown", "startify", "packer", "NvimTree", "TelescopePrompt"}
+      g.indent_blankline_show_current_context = true
+      g.indent_blankline_context_patterns = {'class', 'function', 'method', '^if', '^while', '^for', '^object', '^table', 'block', 'arguments'}
       g.indent_blankline_use_treesitter = true
     end
   }
@@ -169,7 +151,7 @@ return require('packer').startup(function()
     config = function()
       require('lualine').setup{
         options = {
-          theme = 'onedark',
+          theme = 'tokyonight',
         },
         sections = {
           lualine_a = { 'mode' },
@@ -192,7 +174,8 @@ return require('packer').startup(function()
           lualine_x = { 'filetype' },
           lualine_y = { 'progress' },
           lualine_z = { 'location'  },
-        }
+        },
+        extensions = { 'nvim-tree' }
       }
     end,
     requires = {{ 'kyazdani42/nvim-web-devicons' }}
@@ -218,24 +201,17 @@ return require('packer').startup(function()
     end
   }
 
-  -- Colors
   use {
-    'Th3Whit3Wolf/one-nvim',
+    'folke/tokyonight.nvim',
     config = function()
+      g.tokyonight_transparent = true
+      g.tokyonight_hide_inactive_statusline = true
+
       cmd [[ syntax on ]]
-      cmd [[ colorscheme one-nvim ]]
+      cmd [[ colorscheme tokyonight ]]
       cmd [[ hi! LineNr ctermbg=NONE guibg=NONE ]]
       cmd [[ hi! Normal ctermbg=NONE guibg=NONE ]]
       cmd [[ hi! CursorLineNr cterm=bold,italic gui=bold,italic ]]
-
-      g.one_nvim_transparent_bg = true
-    end
-  }
-
-  use {
-    'norcalli/nvim-colorizer.lua',
-    config = function()
-      require'colorizer'.setup()
     end
   }
 
@@ -332,7 +308,12 @@ return require('packer').startup(function()
   }
 
   -- Syntax
-  use 'sile-typesetter/vim-sile'
+  use {
+    'lervag/vimtex',
+    config = function()
+      g.vimtex_view_method = 'skim'
+    end
+  }
 
   -- Treesitter
   use {
