@@ -51,6 +51,8 @@ opt('o', 'clipboard', 'unnamedplus')
 opt('o', 'mouse', 'a')
 opt('o', 'ruler', false)
 opt('o', 'showcmd', false)
+-- Workaround blankline issue #59
+opt('w', 'colorcolumn', '99999')
 
 -- Splits
 opt('o', 'splitbelow', true)

@@ -92,28 +92,28 @@ local on_attach = function(client)
 end
 
 --- TeX
-lsp.texlab.setup{
-  settings = {
-    latex = {
-      build = {
-        onSave = true,
-        executable = "latexmk",
-        args = { "-pvc", "-output-directory=build" },
-        outputDirectory = "build",
-      },
-      forwardSearch = {
-        executable = "/Applications/Skim.app/Contents/SharedSupport/displayline",
-        args = {"%l", "%p", "%f"},
-        onSave = true,
-      },
-      lint = {
-        onChange = false,
-      }
-    }
-  },
-  on_attach = on_attach,
-  capabilities = status.capabilities,
-}
+-- lsp.texlab.setup{
+--   settings = {
+--     latex = {
+--       build = {
+--         onSave = true,
+--         executable = "latexmk",
+--         args = { "-pvc", "-output-directory=build" },
+--         outputDirectory = "build",
+--       },
+--       forwardSearch = {
+--         executable = "/Applications/Skim.app/Contents/SharedSupport/displayline",
+--         args = {"%l", "%p", "%f"},
+--         onSave = true,
+--       },
+--       lint = {
+--         onChange = false,
+--       }
+--     }
+--   },
+--   on_attach = on_attach,
+--   capabilities = status.capabilities,
+-- }
 
 --- Python
 lsp.pyls.setup{
