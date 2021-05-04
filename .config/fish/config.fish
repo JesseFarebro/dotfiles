@@ -11,6 +11,5 @@ if not functions -q fisher
 end
 
 if status --is-interactive
-    type -q pyenv; and pyenv init - | source
-    type -q pyenv; and pyenv virtualenv-init - | source
+    type -q pyenv; and pyenv init - --no-rehash | source
 end
