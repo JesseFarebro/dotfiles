@@ -55,7 +55,7 @@
 
 % Expected value
 \NewDocumentCommand{\E}{e{_}m}{%
-  \newcommand\given{\nonscript\:\vert\nonscript\:\mathopen{}}
+  \providecommand\given{\nonscript\:\vert\nonscript\:\mathopen{}}
   \mathop{}\!\mathbb{E}%
   \IfValueT{#1}{_{#1}}%
   \mathord{

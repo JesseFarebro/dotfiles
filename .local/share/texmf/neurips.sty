@@ -248,7 +248,11 @@
   % give a bit of extra room back to authors on first page
   \enlargethispage{2\baselineskip}%
   \@float{noticebox}[b]%
-    \footnotesize\@noticestring%
+    \begin{picture}(20,2.5)
+      \put(0,12){\line(1,0){70}}
+      \put(0,0){\parbox[b]{19.75pc}{\footnotesize\@noticestring}}%
+    \end{picture}
+    %\footnotesize\@noticestring%
   \end@float%
 }
 
