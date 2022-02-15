@@ -40,6 +40,9 @@ window:
   # Setting this to false will result in window without borders and title bar.
   decorations: transparent
 
+  # Window opacity
+  opacity: 0.96
+
 scrolling:
   # How many lines of scrollback to keep,
   # '0' will disable scrolling.
@@ -56,14 +59,14 @@ draw_bold_text_with_bright_colors: true
 font:
   normal:
     # Line-Gap Medium Dotted Zero (LGMDZ)
-    family: MesloLGSDZ Nerd Font
+    family: MesloLGMDZ Nerd Font
 
   bold:
-    family: MesloLGSDZ Nerd Font
+    family: MesloLGMDZ Nerd Font
     style: Bold
 
   italic:
-    family: MesloLGSDZ Nerd Font
+    family: MesloLGMDZ Nerd Font
     style: Italic
 
   # Point size of the font
@@ -162,9 +165,6 @@ cursor:
 bell:
   animation: EaseOutExpo
   duration: 0
-
-# Background opacity
-background_opacity: 0.96
 
 # Live config reload (changes require restart)
 live_config_reload: true
