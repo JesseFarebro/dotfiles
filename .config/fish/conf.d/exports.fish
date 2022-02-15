@@ -33,6 +33,9 @@ set -gx PYTHONSTARTUP "$PYTHON_CONFIG/startup"
 set -gx PYTHON_CFLAGS "-I"(xcrun --show-sdk-path)"/usr/include"
 set -gx PYTHONBREAKPOINT "ipdb.set_trace"
 
+# C++
+set -gx VCPKG_ROOT (brew --prefix vcpkg)/libexec
+
 # Aux
 set -gx GNUPGHOME "$XDG_DATA_HOME/gnupg"
 set -gx TMUX_TMPDIR "$XDG_RUNTIME_DIR"
@@ -46,7 +49,9 @@ set -g fish_user_paths \
 	$HOME/.local/bin \
 	$HOME/.local/share/bin \
 	$PYENV_ROOT/bin \
-	/usr/local/{bin,sbin}
+	/usr/local/{bin,sbin} \
+  /sbin \
+  $HOME/.cargo/bin
 
 # Aux
 set -gx LESSHISTFILE -
