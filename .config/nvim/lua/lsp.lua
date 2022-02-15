@@ -8,7 +8,7 @@ fn.sign_define('LspDiagnosticsSignWarning', { text = '', texthl = 'LspDiagnos
 fn.sign_define('LspDiagnosticsSignInformation', { text = '', texthl = 'LspDiagnosticsSignInformation' })
 fn.sign_define('LspDiagnosticsSignHint', { text = '', texthl = 'LspDiagnosticsSignHint' })
 
-opt('o', 'completeopt', 'menuone,noselect')
+opt('o', 'completeopt', 'menu,menuone,noselect')
 
 status.config {
   kind_labels = vim.g.completion_customize_lsp_label,
@@ -91,65 +91,53 @@ local on_attach = function(client)
   end
 end
 
---- TeX
--- lsp.texlab.setup{
---   settings = {
---     latex = {
---       build = {
---         onSave = true,
---         executable = "latexmk",
---         args = { "-pvc", "-output-directory=build" },
---         outputDirectory = "build",
---       },
---       forwardSearch = {
---         executable = "/Applications/Skim.app/Contents/SharedSupport/displayline",
---         args = {"%l", "%p", "%f"},
---         onSave = true,
---       },
---       lint = {
---         onChange = false,
---       }
---     }
---   },
---   on_attach = on_attach,
---   capabilities = status.capabilities,
--- }
+capabilities = vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), status.capabilities)
+capabilities = require'cmp_nvim_lsp'.update_capabilities(capabilities)
 
---- Python
-lsp.pyls.setup{
-  on_attach = on_attach,
-  capabilities = status.capabilities,
-  settings = {
-    python = {
-      workspaceSymbols = { enabled = true },
-    },
-    plugins = {
-      yapf = { enabled = true },
-    }
-  }
-}
+-- Python
 lsp.pyright.setup{
   on_attach = on_attach,
-  capabilities = status.capabilities,
+  capabilities = capabilities,
 }
 
--- R
-lsp.r_language_server.setup{
-  on_attach = on_attach
+-- LanguageTool
+lsp.ltex.setup{
+  on_attach = on_attach,
+  capabilities = capabilities
+}
+
+-- Julia
+lsp.julials.setup{
+  on_attach = on_attach,
+  capabilities = capabilities,
 }
 
 -- Yaml
 lsp.yamlls.setup{
-  on_attach = on_attach
+  on_attach = on_attach,
+  capabilities = capabilities,
 }
 
 -- CMake
 lsp.cmake.setup{
-  on_attach = on_attach
+  on_attach = on_attach,
+  capabilities = capabilities,
 }
 
 -- Clang
 lsp.clangd.setup{
   on_attach = on_attach,
+  capabilities = capabilities,
+  handlers = status.extensions.clangd.setup(),
   cmd = { "/usr/local/opt/llvm/bin/clangd", "--background-index" }
 }
+
+
+local lsp_installer = require("nvim-lsp-installer")
+lsp_installer.on_server_ready(function(server)
+  local opts = {
+    capabilities = capabilities,
+    on_attach = on_attach
+  }
+  server:setup(opts)
+end)

@@ -23,6 +23,7 @@ opt('o', 'hidden', true)
 opt('o', 'ignorecase', true)
 opt('o', 'smartcase', true)
 opt('o', 'hlsearch', true)
+opt('o', 'inccommand', 'nosplit')
 
 -- Undo files + backup, TODO: autoread notifications
 opt('o', 'autoread', true)
@@ -83,6 +84,13 @@ map('n', '<c-w>', ':<C-u>close<CR>', { silent = true })
 
 -- CTRL-C doesn't trigger InsertLeave autocmd, map to ESC
 map('i', '<c-c>', '<ESC>')
+
+map('v', '>', '>gv', { silent = true })
+map('v', '<', '<gv', { silent = true })
+
+-- Interactively move selection in visual mode
+map('v', 'J', ":m '>+1<CR>gv=gv", { silent = true, noremap = true })
+map('v', 'K', ":m '<-2<CR>gv=gv", { silent = true, noremap = true })
 
 ----------------------------------------
 -------------- Init --------------------

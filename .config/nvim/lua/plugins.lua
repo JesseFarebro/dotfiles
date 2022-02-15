@@ -16,7 +16,29 @@ return require('packer').startup(function()
     'tpope/vim-surround',
     'tpope/vim-commentary',
     'junegunn/goyo.vim',
-    -- 'beauwilliams/focus.nvim' -- Introduces bug with nvim-tree
+    {
+      'beauwilliams/focus.nvim',
+      config = function()
+        require'focus'.setup()
+      end
+
+    }
+  }
+
+  use 'ggandor/lightspeed.nvim'
+  use {
+    "luukvbaal/stabilize.nvim",
+    config = function()
+      require("stabilize").setup()
+    end
+  }
+
+  use {
+    "karb94/neoscroll.nvim",
+    opt = false,
+    config = function()
+      require'neoscroll'.setup()
+    end
   }
 
   -- Tmux
@@ -51,7 +73,6 @@ return require('packer').startup(function()
   use {
     'mhinz/vim-signify',
     'tpope/vim-fugitive',
-    'rhysd/git-messenger.vim',
     config = function()
       g.signify_sign_add = ''
       g.signify_sign_delete = ''
@@ -69,9 +90,7 @@ return require('packer').startup(function()
 
       require('telescope').setup{
         defaults = {
-          prompt_position = 'bottom',
           prompt_prefix = '   ',
-          file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
           mappings = {
             i = {
               ["<esc>"] = actions.close
@@ -86,12 +105,6 @@ return require('packer').startup(function()
     end
   }
 
-  -- Tab bar
-  -- use {
-  --   'romgrk/barbar.nvim',
-  --   requires = {{ 'kyazdani42/nvim-web-devicons' }}
-  -- }
-
   -- File Explorer
   use {
     'kyazdani42/nvim-tree.lua',
@@ -99,11 +112,9 @@ return require('packer').startup(function()
     config = function()
       local tree_cb = require'nvim-tree.config'.nvim_tree_callback
 
-      g.nvim_tree_width = 35
       g.nvim_tree_git_hl = true
-      g.nvim_tree_auto_close = true
       g.nvim_tree_quit_on_open = true
-      g.nvim_tree_root_folder_modifier = ''
+      g.nvim_tree_root_folder_modifier = ':t'
       g.nvim_tree_indent_markers = true
       g.nvim_tree_show_icons = {
         git = 0,
@@ -111,17 +122,25 @@ return require('packer').startup(function()
         files = 1 
       }
 
-      g.nvim_tree_bindings = {
-        ["sh"] = tree_cb("edit_vsplit"),
-        ["sv"] = tree_cb("edit_split"),
-        ["CR"] = tree_cb("edit"),
-        ["o"] = tree_cb("o"),
-        ["y"] = tree_cb("copy")
+      require'nvim-tree'.setup{
+        auto_close = true,
+        view = {
+          width = 35
+        },
+        mappings = {
+          list = {
+            { key = "sh", cb = tree_cb("edit_vsplit") },
+            { key = "sv", cb = tree_cb("edit_split") },
+            { key = "CR", cb = tree_cb("edit") },
+            { key = "o",  cb = tree_cb("o") },
+            { key = "y",  cb = tree_cb("copy") }
+          }
+        }
       }
 
-      cmd [[ autocmd BufWinEnter NvimTree setlocal scl=no ]]
-      cmd [[ autocmd BufWinEnter NvimTree hi! Cursor blend=100 ]]
-      cmd [[ autocmd BufWinEnter NvimTree set guicursor=n:Cursor/lCursor,v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20 ]]
+      cmd [[ autocmd Colorscheme * highlight NvimTreeNormal guibg=NONE ctermbg=NONE ]]
+      cmd [[ autocmd BufEnter,WinEnter,BufWinEnter NvimTree hi! Cursor blend=100 ]]
+      cmd [[ autocmd BufEnter,WinEnter,BufWinEnter NvimTree set guicursor=n:Cursor/lCursor,v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20 ]]
       cmd [[ autocmd BufLeave,BufWinLeave,WinClosed NvimTree set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20 ]]
       cmd [[ autocmd BufLeave,BufWinLeave,WinClosed NvimTree hi! Cursor blend=NONE ]]
 
@@ -130,25 +149,32 @@ return require('packer').startup(function()
   }
 
   use {
-    "lukas-reineke/indent-blankline.nvim", branch = 'lua',
+    "lukas-reineke/indent-blankline.nvim",
     config = function()
-      g.indent_blankline_char = "│"
-      g.indent_blankline_space_char = "·"
-      g.indent_blankline_space_char_blankline = "·"
-      g.indent_blankline_show_first_indent_level = false
-      g.indent_blankline_show_trailing_blankline_indent = false
-      g.indent_blankline_buftype_exclude = {"help", "terminal"}
-      g.indent_blankline_filetype_exclude = {"text", "markdown", "startify", "packer", "NvimTree", "TelescopePrompt"}
-      g.indent_blankline_show_current_context = true
-      g.indent_blankline_context_patterns = {'class', 'function', 'method', '^if', '^while', '^for', '^object', '^table', 'block', 'arguments'}
-      g.indent_blankline_use_treesitter = true
+      require("indent_blankline").setup{
+        char = "│",
+        space_char = "·",
+        space_char_blankline = " ",
+        show_current_context = true,
+        show_current_context_start = false,
+        show_current_context_start_on_current_line=false,
+        show_first_indent_level=false,
+        show_trailing_blankline_indent=false,
+        buftype_exclude={"help", "terminal"},
+        filetype_exclude={"text", "markdown", "startify", "packer", "NvimTree", "TelescopePrompt"},
+        context_patterns={'class', 'function', 'method', '^if', '^while', '^for', '^object', '^table', 'block', 'arguments'},
+        use_treesitter=true
+      }
     end
   }
 
   -- Status bar
   use {
-    'hoob3rt/lualine.nvim',
+    'nvim-lualine/lualine.nvim',
     config = function()
+      local gps = require'nvim-gps'
+      gps.setup()
+
       require('lualine').setup{
         options = {
           theme = 'tokyonight',
@@ -158,9 +184,10 @@ return require('packer').startup(function()
           lualine_b = { 'branch', 'diff' },
           lualine_c = {
             'filename',
+            { gps.get_location, condition = gps.is_available },
             {
               'diagnostics',
-              sources = { 'nvim_lsp' },
+              sources = { 'nvim_diagnostic' },
               color_error = '#e06c75',
               color_warn = '#e5c07b',
               color_info = '#56b6c2',
@@ -178,7 +205,10 @@ return require('packer').startup(function()
         extensions = { 'nvim-tree' }
       }
     end,
-    requires = {{ 'kyazdani42/nvim-web-devicons' }}
+    requires = { 
+      { 'kyazdani42/nvim-web-devicons', opt = true },
+      'SmiteshP/nvim-gps'
+    }
   }
 
   -- Start Screen
@@ -206,6 +236,10 @@ return require('packer').startup(function()
     config = function()
       g.tokyonight_transparent = true
       g.tokyonight_hide_inactive_statusline = true
+      g.tokyonight_transparent_sidebar = true
+      g.tokyonight_lualine_bold = true
+      g.tokyonight_sidebars = { "packer" }
+      g.tokyonight_italic_functions = true
 
       cmd [[ syntax on ]]
       cmd [[ colorscheme tokyonight ]]
@@ -225,86 +259,55 @@ return require('packer').startup(function()
   }
 
   use {
-    {
-      'hrsh7th/nvim-compe',
-      config = function()
-        require'compe'.setup{
-          enabled = true;
-          autocomplete = true;
-          debug = false;
-          min_length = 1;
-          preselect = 'enable';
-          throttle_time = 80;
-          source_timeout = 200;
-          incomplete_delay = 400;
-          max_abbr_width = 100;
-          max_kind_width = 100;
-          max_menu_width = 100;
-          documentation = true;
+    'williamboman/nvim-lsp-installer',
+    requires = "neovim/nvim-lspconfig"
+  }
 
-          source = {
-            path = true;
-            buffer = true;
-            calc = true;
-            vsnip = true;
-            nvim_lsp = true;
-            nvim_lua = true;
-            spell = true;
-            tags = true;
-            snippets_nvim = true;
-            treesitter = true;
-          };
+  use {
+    'hrsh7th/nvim-cmp',
+    config = function()
+      local cmp = require'cmp'
+      local lspkind = require'lspkind'
+
+      cmp.setup{
+        snippet = {
+          expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body)
+          end
+        },
+        mapping = {
+          ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<C-Space>'] = cmp.mapping.complete(),
+          ['<C-e>'] = cmp.mapping.close(),
+          ['<CR>'] = cmp.mapping.confirm({ select = true }),
+          ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' })
+        },
+        sources = {
+          { name = 'nvim_lsp' },
+          { name = 'vsnip' },
+          { name = 'buffer' },
+          { name = 'calc' },
+          { name = 'path' },
+          { name = 'latex_symbols' },
+        },
+        formatting = {
+          format = lspkind.cmp_format({with_text = false, maxwidth = 50})
         }
-
-        map('i', '<C-Space>', 'compe#complete()', { expr=true, silent=true})
-        map('i', '<CR>', 'compe#confirm("<CR>")', { expr=true, silent=true})
-        map('i', '<C-e>', 'compe#close("<C-e>")', { expr=true, silent=true})
-        map('i', '<C-f>', 'compe#scroll({ "delta: +4})', { expr=true, silent=true})
-        map('i', '<C-d>', 'compe#scroll({ "delta: -4})', { expr=true, silent=true})
-
-        local t = function(str)
-          return vim.api.nvim_replace_termcodes(str, true, true, true)
-        end
-        local check_back_space = function()
-          local col = vim.fn.col('.') - 1
-          if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-              return true
-          else
-              return false
-          end
-        end
-        -- Use (s-)tab to:
-        --- move to prev/next item in completion menuone
-        --- jump to prev/next snippet's placeholder
-        _G.tab_complete = function()
-          if vim.fn.pumvisible() == 1 then
-            return t "<C-n>"
-          elseif vim.fn.call("vsnip#available", {1}) == 1 then
-            return t "<Plug>(vsnip-expand-or-jump)"
-          elseif check_back_space() then
-            return t "<Tab>"
-          else
-            return vim.fn['compe#complete']()
-          end
-        end
-        _G.s_tab_complete = function()
-          if vim.fn.pumvisible() == 1 then
-            return t "<C-p>"
-          elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-            return t "<Plug>(vsnip-jump-prev)"
-          else
-            return t "<S-Tab>"
-          end
-        end
-
-        vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true, silent=true})
-        vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true, silent=true})
-        vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true, silent=true})
-        vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true, silent=true})
-      end
-    },
-    'hrsh7th/vim-vsnip',
-    'hrsh7th/vim-vsnip-integ'
+      }
+    end,
+    requires = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-emoji',
+      'hrsh7th/cmp-calc',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-vsnip',
+      'hrsh7th/vim-vsnip',
+      'hrsh7th/vim-vsnip-integ',
+      'kdheepak/cmp-latex-symbols',
+      'onsails/lspkind-nvim'
+    }
   }
 
   -- Syntax
@@ -326,6 +329,73 @@ return require('packer').startup(function()
           enable = true,
         }
       }
+    end
+  }
+  use {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    after = {"nvim-treesitter"},
+    config = function()
+      require"nvim-treesitter.configs".setup {
+          textobjects = {
+            select = {
+              enable = true,
+              disable = {},
+              keymaps = {
+                  ["af"] = "@function.outer",
+                  ["if"] = "@function.inner",
+                  ["aC"] = "@class.outer",
+                  ["iC"] = "@class.inner",
+                  ["ac"] = "@conditional.outer",
+                  ["ic"] = "@conditional.inner",
+                  ["ab"] = "@block.outer",
+                  ["ib"] = "@block.inner",
+                  ["al"] = "@loop.outer",
+                  ["il"] = "@loop.inner",
+                  ["is"] = "@statement.inner",
+                  ["as"] = "@statement.outer",
+                  ["ad"] = "@comment.outer",
+                  ["am"] = "@call.outer",
+                  ["im"] = "@call.inner"
+              }
+          },
+          -- swap parameters (keymap -> textobject query)
+          swap = {
+              enable = true,
+              swap_next = {["<leader>N"] = "@parameter.inner"},
+              swap_previous = {["<leader>P"] = "@parameter.inner"}
+          },
+          -- set mappings to go to start/end of adjacent textobjects (keymap -> textobject query)
+          move = {
+              enable = true,
+              goto_previous_start = {
+                  ["[b"] = "@block.outer",
+                  ["[m"] = "@function.outer",
+                  ["[["] = "@class.outer"
+              },
+              goto_previous_end = {
+                  ["[B"] = "@block.outer",
+                  ["[M"] = "@function.outer",
+                  ["[]"] = "@class.outer"
+              },
+              goto_next_start = {
+                  ["]b"] = "@block.outer",
+                  ["]m"] = "@function.outer",
+                  ["]]"] = "@class.outer"
+              },
+              goto_next_end = {
+                  ["]B"] = "@block.outer",
+                  ["]M"] = "@function.outer",
+                  ["]["] = "@class.outer"
+              }
+            }
+          }
+        }
+    end
+  }
+  use {
+    'lewis6991/spellsitter.nvim',
+    config = function()
+      require('spellsitter').setup()
     end
   }
 end)
