@@ -23,11 +23,8 @@ switch (uname)
   case Darwin
     set -Ux XDG_RUNTIME_DIR $TMPDIR"runtime-$USER"
 end
-
 # create XDG_RUNTIME_DIR on login
-if status --is-login
-    mkdir -p $XDG_RUNTIME_DIR
-end
+mkdir -p $XDG_RUNTIME_DIR
 
 # User paths
 set -Ux fish_user_paths \
