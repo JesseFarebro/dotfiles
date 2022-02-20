@@ -1,61 +1,83 @@
+status --is-login || exit
+
 # Fish
 set -U fish_greeting
+
+# Globals
+set -Ux EDITOR nvim
+set -Ux MANPAGER nvim +Man!
+if type -q alacritty
+  set -Ux TERM alacritty
+end
+if [ (uname) = "Darwin" ]
+  set -Ux BROWSER open
+end
 
 # XDG
 set -Ux XDG_DATA_HOME "$HOME/.local/share"
 set -Ux XDG_CONFIG_HOME "$HOME/.config"
 set -Ux XDG_CACHE_HOME "$HOME/.cache"
-set -Ux XDG_RUNTIME_DIR $TMPDIR"runtime-$USER"
+switch (uname)
+  case Linux
+    set -Ux XDG_RUNTIME_DIR /run/user/(id -u)
+  case Darwin
+    set -Ux XDG_RUNTIME_DIR $TMPDIR"runtime-$USER"
+end
 
 # create XDG_RUNTIME_DIR on login
 if status --is-login
     mkdir -p $XDG_RUNTIME_DIR
 end
 
+# User paths
+set -Ux fish_user_paths \
+  $HOME/.local/{share/bin,bin} \
+  /usr/local/{bin,sbin} \
+  /{bin,sbin}
+
 # ncurses
-set -gx TERMINFO "$XDG_DATA_HOME/terminfo"
-set -gx TERMINFO_DIRS "$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
+set -Ux TERMINFO "$XDG_DATA_HOME/terminfo"
+set -Ux TERMINFO_DIRS "$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
 
 # Node
-set -gx NODE_REPL_HISTORY "$XDG_DATA_HOME/node_repl_history"
-set -gx NPM_CONFIG_USERCONFIG "$XDG_CONFIG_HOME/npm/config"
-set -gx NPM_CONFIG_CACHE "$XDG_CACHE_HOME/npm"
-set -gx NPM_CONFIG_TMP "$XDG_RUNTIME_DIR/npm"
+set -Ux NODE_REPL_HISTORY "$XDG_DATA_HOME/node_repl_history"
+set -Ux NPM_CONFIG_USERCONFIG "$XDG_CONFIG_HOME/npm/config"
+set -Ux NPM_CONFIG_CACHE "$XDG_CACHE_HOME/npm"
+set -Ux NPM_CONFIG_TMP "$XDG_RUNTIME_DIR/npm"
 
 # Python
-set -gx PYENV_ROOT "$XDG_DATA_HOME/pyenv"
-set -gx IPYTHONDIR "$XDG_CONFIG_HOME/jupyter"
-set -gx JUPYTER_CONFIG_DIR "$XDG_CONFIG_HOME/jupyter"
-set -gx PYTHON_CONFIG "$XDG_CONFIG_HOME/python"
-set -gx MPLCONFIGDIR "$XDG_CONFIG_HOME/matplotlib"
-set -gx PYLINTHOME "$XDG_CACHE_HOME/pylint"
-set -gx PYTHONSTARTUP "$PYTHON_CONFIG/startup"
-set -gx PYTHON_CFLAGS "-I"(xcrun --show-sdk-path)"/usr/include"
-set -gx PYTHONBREAKPOINT "ipdb.set_trace"
+set -Ux PYENV_ROOT "$XDG_DATA_HOME/pyenv"
+set -Ux IPYTHONDIR "$XDG_CONFIG_HOME/jupyter"
+set -Ux JUPYTER_CONFIG_DIR "$XDG_CONFIG_HOME/jupyter"
+set -Ux PYTHON_CONFIG "$XDG_CONFIG_HOME/python"
+set -Ux MPLCONFIGDIR "$XDG_CONFIG_HOME/matplotlib"
+set -Ux PYLINTHOME "$XDG_CACHE_HOME/pylint"
+set -Ux PYTHONSTARTUP "$PYTHON_CONFIG/startup"
+set -Ux PYTHONBREAKPOINT "ipdb.set_trace"
+if [ (uname) = "Darwin" ]
+  set -Ux PYTHON_CFLAGS "-I"(xcrun --show-sdk-path)"/usr/include"
+end
+
+type -q pyenv; and fish_add_path -p $PYENV_ROOT/shims
+
+# Rust
+set -Ux CARGO_HOME "$XDG_DATA_HOME/cargo"
+type -q cargo; and fish_add_path $CARGO_HOME/bin
 
 # C++
-set -gx VCPKG_ROOT (brew --prefix vcpkg)/libexec
+if type -q brew
+  set -Ux VCPKG_ROOT (brew --prefix vcpkg)/libexec
+end
 
 # Aux
-set -gx GNUPGHOME "$XDG_DATA_HOME/gnupg"
-set -gx TMUX_TMPDIR "$XDG_RUNTIME_DIR"
-set -gx NVIM_LISTEN_ADDRESS "$XDG_RUNTIME_DIR/nvimsocket"
-set -gx DOCKER_CONFIG "$XDG_CONFIG_HOME/docker"
-set -gx XAUTHORITY "$XDG_RUNTIME_DIR/Xauthority"
-set -gx TEXINPUTS ".:$XDG_DATA_HOME/texmf//:"
-
-# User paths
-set -g fish_user_paths \
-	$HOME/.local/bin \
-	$HOME/.local/share/bin \
-	$PYENV_ROOT/bin \
-	/usr/local/{bin,sbin} \
-  /sbin \
-  $HOME/.cargo/bin
+set -Ux GNUPGHOME "$XDG_DATA_HOME/gnupg"
+set -Ux TMUX_TMPDIR "$XDG_RUNTIME_DIR"
+set -Ux NVIM_LISTEN_ADDRESS "$XDG_RUNTIME_DIR/nvimsocket"
+set -Ux DOCKER_CONFIG "$XDG_CONFIG_HOME/docker"
+set -Ux XAUTHORITY "$XDG_RUNTIME_DIR/Xauthority"
+set -Ux TEXINPUTS ".:$XDG_DATA_HOME/texmf//:"
 
 # Aux
-set -gx LESSHISTFILE -
-set -gx __CF_USER_TEXT_ENCODING 0x(id -u):0x0:0x52
-
-set -g grc_wrap_commands diff tail gcc g++ ifconfig make mount ping ps tail df
-set -gx FZF_DEFAULT_COMMAND "rg --files --no-ignore --hidden --follow --glob '!.git/*'"
+set -Ux LESSHISTFILE -
+set -Ux __CF_USER_TEXT_ENCODING 0x(id -u):0x0:0x52
+set -Ux FZF_DEFAULT_COMMAND "rg --files --no-ignore --hidden --follow --glob '!.git/*'"
