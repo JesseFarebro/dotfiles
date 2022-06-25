@@ -40,7 +40,6 @@ set -Ux TERMINFO_DIRS "$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
 set -Ux NODE_REPL_HISTORY "$XDG_DATA_HOME/node_repl_history"
 set -Ux NPM_CONFIG_USERCONFIG "$XDG_CONFIG_HOME/npm/config"
 set -Ux NPM_CONFIG_CACHE "$XDG_CACHE_HOME/npm"
-set -Ux NPM_CONFIG_TMP "$XDG_RUNTIME_DIR/npm"
 
 # Python
 set -Ux PYENV_ROOT "$XDG_DATA_HOME/pyenv"
@@ -54,16 +53,16 @@ set -Ux PYTHONBREAKPOINT "ipdb.set_trace"
 if [ (uname) = "Darwin" ]
   set -Ux PYTHON_CFLAGS "-I"(xcrun --show-sdk-path)"/usr/include"
 end
-
-type -q pyenv; and fish_add_path -p $PYENV_ROOT/shims
+fish_add_path -p $PYENV_ROOT/shims
 
 # Rust
 set -Ux CARGO_HOME "$XDG_DATA_HOME/cargo"
-type -q cargo; and fish_add_path $CARGO_HOME/bin
+set -Ux RUSTUP_HOME "$XDG_DATA_HOME/rustup"
+fish_add_path $CARGO_HOME/bin
 
 # C++
 if type -q brew
-  set -Ux VCPKG_ROOT (brew --prefix vcpkg)/libexec
+  set -Ux VCPKG_ROOT "$XDG_DATA_HOME/vcpkg"
 end
 
 # Aux
