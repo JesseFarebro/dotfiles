@@ -4,7 +4,7 @@ if status --is-interactive
   # Bootstrap session
   if not functions -q fisher
       curl -sL https://git.io/fisher | source \
-        and fisher install jorgebucaran/fisher
+        and fisher update
   end
 
   type -q pyenv; and pyenv init - --no-rehash | source
