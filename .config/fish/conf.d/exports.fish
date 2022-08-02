@@ -42,7 +42,6 @@ set -Ux NPM_CONFIG_USERCONFIG "$XDG_CONFIG_HOME/npm/config"
 set -Ux NPM_CONFIG_CACHE "$XDG_CACHE_HOME/npm"
 
 # Python
-set -Ux PYENV_ROOT "$XDG_DATA_HOME/pyenv"
 set -Ux IPYTHONDIR "$XDG_CONFIG_HOME/jupyter"
 set -Ux JUPYTER_CONFIG_DIR "$XDG_CONFIG_HOME/jupyter"
 set -Ux PYTHON_CONFIG "$XDG_CONFIG_HOME/python"
@@ -53,7 +52,6 @@ set -Ux PYTHONBREAKPOINT "ipdb.set_trace"
 if [ (uname) = "Darwin" ]
   set -Ux PYTHON_CFLAGS "-I"(xcrun --show-sdk-path)"/usr/include"
 end
-fish_add_path -p $PYENV_ROOT/shims
 
 # Rust
 set -Ux CARGO_HOME "$XDG_DATA_HOME/cargo"
