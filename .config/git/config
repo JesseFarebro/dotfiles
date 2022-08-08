@@ -6,6 +6,18 @@
   email = jessefarebro@gmail.com
   signingkey = 39CF2568
 
+[github]
+  user = jessefarebro
+
+[init]
+  defaultBranch = main
+
+[pull]
+  rebase = true
+
+[url "https://github.com/"]
+  insteadOf = git@github.com:
+
 [color]
   ui = true
 
@@ -15,7 +27,7 @@
   pager = delta
 
 [gpg]
-  program = /usr/local/bin/gpg
+  program = gpg
 
 [commit]
   gpgsign = true
