@@ -1,19 +1,12 @@
 local config = {}
 
-function config.lsp_intsaller()
-  local lsp = require("modules.completion.lsp")
-  local lsp_installer = require("nvim-lsp-installer")
-  lsp_installer.on_server_ready(function(server)
-    server:setup({
-      capabilities = lsp.capabilities,
-      on_attach = lsp.on_attach
-    })
-  end)
-end
-
 function config.lsp()
-  local lsp = require("modules.completion.lsp")
+  local lsp = require('modules.completion.lsp')
   local lspconfig = require('lspconfig')
+  local mason = require('mason-lspconfig')
+
+  -- Setup LSP servers
+  mason.setup{}
 
   -- Python
   lspconfig.pyright.setup {
@@ -25,6 +18,26 @@ function config.lsp()
   lspconfig.ltex.setup {
     on_attach = lsp.on_attach,
     capabilities = lsp.capabilities
+  }
+
+  -- LaTeX
+  lspconfig.texlab.setup {
+    on_attach = lsp.on_attach,
+    capabilities = lsp.capabilities,
+    settings = {
+      texlab = {
+        build = {
+          onSave = true,
+        },
+        chktex = {
+          onOpenAndSave = true
+        },
+        forwardSearch = {
+          executable = "/Applications/Skim.app/Contents/SharedSupport/displayline",
+          args = { "-g", "%l", "%p", "%f" }
+        }
+      }
+    }
   }
 
   -- Clang

@@ -27,7 +27,7 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
 )
 
 on_attach = function(client, bufnr)
-  navic.on_attach(client, bufnr)
+  navic.attach(client, bufnr)
 
   protocol.CompletionItemKind = {
     '';   -- Text          = 1;

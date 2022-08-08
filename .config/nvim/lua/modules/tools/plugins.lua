@@ -21,3 +21,10 @@ plugin {
   'kylechui/nvim-surround',
   config = conf.surround
 }
+
+plugin {
+  'numToStr/Comment.nvim',
+  config = function()
+      require('Comment').setup()
+  end
+}

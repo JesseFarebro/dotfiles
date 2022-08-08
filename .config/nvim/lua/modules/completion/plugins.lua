@@ -5,8 +5,12 @@ plugin {
   'neovim/nvim-lspconfig',
   -- used filetype to lazyload lsp
   -- config your language filetype in here
-  ft = { 'lua', 'python', 'c', 'cpp' },
-  requires = 'onsails/lspkind.nvim',
+  ft = { 'lua', 'python', 'c', 'cpp', 'tex' },
+  requires = {
+    'onsails/lspkind.nvim',
+    'williamboman/mason-lspconfig.nvim',
+    'SmiteshP/nvim-navic',
+  },
   config = conf.lsp,
 }
 
@@ -17,12 +21,10 @@ plugin {
 }
 
 plugin {
-  'williamboman/nvim-lsp-installer',
-  requires = {
-    'neovim/nvim-lspconfig',
-    'onsails/lspkind.nvim',
-  },
-  config = conf.lsp_installer,
+  'williamboman/mason.nvim',
+  config = function()
+    require('mason').setup{}
+  end,
 }
 
 plugin {
