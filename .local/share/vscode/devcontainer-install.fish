@@ -10,17 +10,17 @@ end
 # Clone dotfiles
 git --git-dir=$HOME/.dotfiles/.git --work-tree=$HOME reset --hard
 
-# Execute in fish login shell
-exec fish -l
+# Install Fisher plugin in a login shell
+fish -l -c 'fisher update 2>/dev/null'
 
 # Write micromamba init
 if type -q "micromamba"
-  tee -a ~/.config/fish/config.fish << EOF
+  printf "\
 # >>> mamba initialize >>>
 # !! Contents within this block are managed by 'mamba init' !!
-set -gx MAMBA_EXE "/bin/micromamba"
-set -gx MAMBA_ROOT_PREFIX "/opt/conda"
-status is-interactive && eval "/bin/micromamba" shell hook --shell fish --prefix "/opt/conda" | source
+set -gx MAMBA_EXE \"/bin/micromamba\"
+set -gx MAMBA_ROOT_PREFIX \"/opt/conda\"
+status is-interactive && eval \"/bin/micromamba\" shell hook --shell fish --prefix \"/opt/conda\" | source
 # <<< mamba initialize <<<
-  EOF
+" >> ~/.config/fish/config.fish
 end
