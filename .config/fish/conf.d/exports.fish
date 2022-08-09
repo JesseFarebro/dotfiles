@@ -19,12 +19,18 @@ set -Ux XDG_CONFIG_HOME "$HOME/.config"
 set -Ux XDG_CACHE_HOME "$HOME/.cache"
 switch (uname)
   case Linux
-    set -Ux XDG_RUNTIME_DIR /run/user/(id -u)
+    if test -d /run/user/(id -u)
+      set -Ux XDG_RUNTIME_DIR /run/user/(id -u)
+    else
+      set -Ux XDG_RUNTIME_DIR $TMPDIR"runtime-$USER"
+    end
   case Darwin
     set -Ux XDG_RUNTIME_DIR $TMPDIR"runtime-$USER"
 end
-# create XDG_RUNTIME_DIR on login
-mkdir -p $XDG_RUNTIME_DIR
+if not test -d $XDG_RUNTIME_DIR
+  # create XDG_RUNTIME_DIR on login if not exist
+  mkdir -p $XDG_RUNTIME_DIR
+end
 
 # User paths
 set -Ux fish_user_paths \
