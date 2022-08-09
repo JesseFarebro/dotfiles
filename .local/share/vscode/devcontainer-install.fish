@@ -11,7 +11,7 @@ end
 git --git-dir=$HOME/.dotfiles/.git --work-tree=$HOME reset --hard
 
 # Install Fisher plugin in a login shell
-fish -l -c 'fisher update 2>/dev/null'
+fish -c 'fisher update'
 
 # Write micromamba init
 if type -q "micromamba"
@@ -24,3 +24,6 @@ status is-interactive && eval \"/bin/micromamba\" shell hook --shell fish --pref
 # <<< mamba initialize <<<
 " >> ~/.config/fish/config.fish
 end
+
+# Execute fish login hooks
+exec fish -l -c "exit"
