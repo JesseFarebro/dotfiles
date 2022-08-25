@@ -20,26 +20,6 @@ function config.lsp()
     capabilities = lsp.capabilities
   }
 
-  -- LaTeX
-  lspconfig.texlab.setup {
-    on_attach = lsp.on_attach,
-    capabilities = lsp.capabilities,
-    settings = {
-      texlab = {
-        build = {
-          onSave = true,
-        },
-        chktex = {
-          onOpenAndSave = true
-        },
-        forwardSearch = {
-          executable = "/Applications/Skim.app/Contents/SharedSupport/displayline",
-          args = { "-g", "%l", "%p", "%f" }
-        }
-      }
-    }
-  }
-
   -- Clang
   lspconfig.clangd.setup {
     on_attach = lsp.on_attach,
