@@ -1,55 +1,11 @@
-# Backends
-backend: MacOSX
-#backend_fallback: True
-
-interactive: False
-toolbar: None
-
-# Fonts
-font.size: 10
-font.serif: Computer Modern Roman
-font.sans-serif: Computer Modern Roman
-font.monospace: Computer Modern Typewriter
-
-text.usetex: True
+# TeX preamble
 text.latex.preamble: \usepackage{jmath}
 
-# Lines
-lines.linewidth: 1.5
-lines.markersize: 10
-lines.markeredgewidth: 0
-hatch.linewidth: 0.25
-
-patch.antialiased: True
-
-# Legend
-legend.frameon: False
-legend.fontsize: 8
-
-# Axes
-axes.formatter.use_mathtext: True
-
-axes.titlesize: large
-axes.labelsize: large
-
+# Spines
 axes.spines.left: True
 axes.spines.bottom: True
 axes.spines.top: False
 axes.spines.right: False
 
-axes.prop_cycle : cycler('color', ['EE7733', '0077BB', '33BBEE', 'EE3377', 'CC3311', '009988', 'BBBBBB'])
-
-# Figure
-figure.raise_window: False
-figure.autolayout: True
-
-# Saving Figures
-savefig.bbox: tight
-savefig.format: pdf
-savefig.transparent: True
-
-path.simplify: True
-
 # Animation
-animation.html: html5
-animation.codec:   h265
+animation.codec: av1
