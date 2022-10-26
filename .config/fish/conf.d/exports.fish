@@ -54,7 +54,6 @@ set -Ux PYTHON_CONFIG "$XDG_CONFIG_HOME/python"
 set -Ux MPLCONFIGDIR "$XDG_CONFIG_HOME/matplotlib"
 set -Ux PYLINTHOME "$XDG_CACHE_HOME/pylint"
 set -Ux PYTHONSTARTUP "$PYTHON_CONFIG/startup"
-set -Ux PYTHONBREAKPOINT "ipdb.set_trace"
 if [ (uname) = "Darwin" ]
   set -Ux PYTHON_CFLAGS "-I"(xcrun --show-sdk-path)"/usr/include"
 end
