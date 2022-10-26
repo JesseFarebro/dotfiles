@@ -7,8 +7,8 @@ if status --is-interactive
         and fisher update
   end
 
-  # >>> conda initialize >>>
-  # !! Contents within this block are managed by 'conda init' !!
-  eval /usr/local/Caskroom/mambaforge/base/bin/conda "shell.fish" "hook" $argv | source
-  # <<< conda initialize <<<
+  # Source mamba if on macOS
+  if type -q brew; and test -f (brew --prefix)/Caskroom/mambaforge/base/bin/conda
+    eval (brew --prefix)/Caskroom/mambaforge/base/bin/conda "shell.fish" "hook" $argv | source
+  end
 end
