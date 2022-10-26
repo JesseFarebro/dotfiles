@@ -3,47 +3,58 @@ local conf = require('modules.ui.config')
 
 plugin {
   'folke/tokyonight.nvim',
-  config = conf.tokyonight
+  config = conf.tokyonight,
 }
 
 plugin {
   "folke/zen-mode.nvim",
   config = conf.zen,
-  cmd = 'ZenMode'
+  cmd = 'ZenMode',
+}
+
+plugin {
+  'nvim-telescope/telescope.nvim',
+  cmd = 'Telescope',
+  config = conf.telescope,
+  requires = {
+    { 'nvim-lua/popup.nvim' },
+    { 'nvim-lua/plenary.nvim' },
+    { 'nvim-telescope/telescope-fzy-native.nvim' },
+  },
 }
 
 plugin {
   'beauwilliams/focus.nvim',
   config = function()
-    require'focus'.setup{}
-  end
+    require'focus'.setup{signcolumn = false}
+  end,
 }
 
 plugin {
   'folke/which-key.nvim',
   config = function()
     require'which-key'.setup{}
-  end
+  end,
 }
 
 plugin {
   'luukvbaal/stabilize.nvim',
   config = function()
     require'stabilize'.setup{}
-  end
+  end,
 }
 
 plugin {
   'karb94/neoscroll.nvim',
   config = function()
     require'neoscroll'.setup{}
-  end
+  end,
 }
 
 plugin {
   'kyazdani42/nvim-tree.lua',
   requires = 'kyazdani42/nvim-web-devicons',
-  config = conf.tree
+  config = conf.tree,
 }
 
 plugin {
@@ -52,7 +63,7 @@ plugin {
   after = {
     'nvim-treesitter',
     'tokyonight.nvim',
-  }
+  },
 }
 
 plugin {
@@ -61,11 +72,11 @@ plugin {
   requires = {
     'kyazdani42/nvim-web-devicons',
     'SmiteshP/nvim-navic'
-  }
+  },
 }
 
 plugin {
   'akinsho/nvim-bufferline.lua',
   config = conf.bufferline,
-  requires = 'kyazdani42/nvim-web-devicons'
+  requires = 'kyazdani42/nvim-web-devicons',
 }

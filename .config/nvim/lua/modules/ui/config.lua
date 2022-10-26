@@ -1,19 +1,98 @@
 local config = {}
 
 function config.tokyonight()
-  vim.g.tokyonight_style = 'storm'
-  vim.g.tokyonight_transparent = true
-  vim.g.tokyonight_hide_inactive_statusline = true
-  vim.g.tokyonight_transparent_sidebar = true
-  vim.g.tokyonight_lualine_bold = false
-  vim.g.tokyonight_sidebars = { "packer" }
-  vim.g.tokyonight_italic_functions = true
-  vim.g.tokyonight_hide_inactive_statusline = true
-  vim.g.tokyonight_transparent_sidebar = true
-  vim.g.tokyonight_dark_float = false
+  require("tokyonight").setup{
+    style = 'storm',
+
+    transparent = true,
+
+    styles = {
+      functions = { italic = true },
+      sidebars = "transparent",
+      floats = "transparent",
+    },
+    sidebars = { 'packer', 'nvim_tree', 'NvimTree', 'netrw' },
+
+    hide_inactive_statusline = true,
+    dim_inactive = true,
+    on_highlights = function(hl, c)
+      local prompt = "#2d3149"
+      hl.TelescopeNormal = {
+        bg = c.bg_dark,
+        fg = c.fg_dark,
+      }
+      hl.TelescopeBorder = {
+        bg = c.bg_dark,
+        fg = c.bg_dark,
+      }
+      hl.TelescopePromptNormal = {
+        bg = prompt,
+      }
+      hl.TelescopePromptBorder = {
+        bg = prompt,
+        fg = prompt,
+      }
+      hl.TelescopePromptTitle = {
+        bg = prompt,
+        fg = prompt,
+      }
+      hl.TelescopePreviewTitle = {
+        bg = c.bg_dark,
+        fg = c.bg_dark,
+      }
+      hl.TelescopeResultsTitle = {
+        bg = c.bg_dark,
+        fg = c.bg_dark,
+      }
+    end,
+  }
 
   vim.cmd [[ syntax on ]]
   vim.cmd [[ colorscheme tokyonight ]]
+end
+
+function config.telescope()
+  local actions = require('telescope.actions')
+
+  if not packer_plugins['plenary.nvim'].loaded then
+    vim.cmd([[packadd plenary.nvim]])
+    vim.cmd([[packadd popup.nvim]])
+    vim.cmd([[packadd telescope-fzy-native.nvim]])
+  end
+  require('telescope').setup({
+    defaults = {
+      prompt_prefix = '   ',
+      selection_caret = '  ',
+      mappings = {
+        i = {
+          ["<C-j>"] = {
+            actions.move_selection_next, type = "action",
+            opts = { nowait = true, silent = true }
+          },
+          ["<C-k>"] = {
+            actions.move_selection_previous, type = "action",
+            opts = { nowait = true, silent = true }
+          },
+          ["<esc>"] = actions.close
+        },
+      },
+      layout_config = {
+        horizontal = { prompt_position = 'top', results_width = 0.6 },
+        vertical = { mirror = false },
+      },
+      sorting_strategy = 'ascending',
+      file_previewer = require('telescope.previewers').vim_buffer_cat.new,
+      grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
+      qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
+    },
+    extensions = {
+      fzy_native = {
+        override_generic_sorter = false,
+        override_file_sorter = true,
+      },
+    },
+  })
+  require('telescope').load_extension('fzy_native')
 end
 
 function config.indent()
@@ -68,12 +147,10 @@ function config.lualine()
 end
 
 function config.bufferline()
-  local colors = require("tokyonight.colors").setup({})
-
   require('bufferline').setup({
     options = {
       modified_icon = '',
-      separator_style = "thick",
+      separator_style = "thin",
       always_show_bufferline = true,
       color_icons = true,
       show_buffer_close_icons = false,
@@ -88,7 +165,8 @@ function config.bufferline()
           filetype = "NvimTree",
           text = "",
           highlight = "Directory",
-          text_align = "left"
+          text_align = "left",
+          separator = true,
         }
       },
     },

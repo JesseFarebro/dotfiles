@@ -57,11 +57,11 @@ on_attach = function(client, bufnr)
     '';   -- TypeParameter = 25;
   }
 
-  if client.resolved_capabilities.document_formatting then
+  if client.server_capabilities.document_formatting then
     nmap({'<Leader>f', cmd('vim.lsp.buf.formatting'), opts(noremap, silent)})
   end
 
-  if client.resolved_capabilities.document_highlight then
+  if client.server_capabilities.document_highlight then
     vim.api.nvim_exec([[
       highlight LspReference guifg=NONE guibg=#665c54 guisp=NONE gui=NONE cterm=NONE ctermfg=NONE ctermbg=59
       highlight! link LspReferenceText LspReference

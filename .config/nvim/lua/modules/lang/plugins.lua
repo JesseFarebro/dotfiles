@@ -5,7 +5,6 @@ plugin {
   'nvim-treesitter/nvim-treesitter',
   event = 'BufRead',
   run = ':TSUpdate',
-  after = 'telescope.nvim',
   config = conf.treesitter,
 }
 
@@ -18,5 +17,5 @@ plugin {
   'lervag/vimtex',
   config = function()
     vim.g.vimtex_view_method = 'skim'
-  end
+  end,
 }

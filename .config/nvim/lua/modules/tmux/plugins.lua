@@ -5,12 +5,12 @@ plugin {
   'aserowy/tmux.nvim',
   opt = true,
   cond = vim.fn.executable('tmux'),
-  config = conf.tmux
+  config = conf.tmux,
 }
 
 plugin {
   'christoomey/vim-tmux-runner',
   opt = true,
   cond = vim.fn.executable('tmux'),
-  config = conf.runner
+  config = conf.runner,
 }

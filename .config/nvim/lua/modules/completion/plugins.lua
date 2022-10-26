@@ -17,7 +17,7 @@ plugin {
 plugin {
   "SmiteshP/nvim-navic",
   requires = "neovim/nvim-lspconfig",
-  config = conf.navic
+  config = conf.navic,
 }
 
 plugin {
@@ -35,9 +35,14 @@ plugin {
     { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-lspconfig' },
     { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
     { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
-    { 'saadparwaiz1/cmp_luasnip', after = 'LuaSnip' },
+    { 'saadparwaiz1/cmp_luasnip', after = { 'nvim-cmp', 'LuaSnip' } },
     { 'onsails/lspkind.nvim' },
   },
+}
+
+plugin {
+  'github/copilot.vim',
+  event = 'BufReadPre',
 }
 
 plugin {
