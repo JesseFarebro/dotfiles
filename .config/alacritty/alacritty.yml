@@ -61,15 +61,15 @@ font:
     family: ComicCodeLigatures Nerd Font
 
   bold:
-    family: Comic Code Ligatures
+    family: ComicCodeLigatures Nerd Font
     style: Bold
 
   italic:
-    family: Comic Code Ligatures
+    family: ComicCodeLigatures Nerd Font
     style: Italic
 
   bold_italic:
-    family: Comic Code Ligatures
+    family: ComicCodeLigatures Nerd Font
     style: Bold Italic
 
   # Point size of the font

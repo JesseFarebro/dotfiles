@@ -2,6 +2,11 @@ status --is-login || exit
 
 # Fish
 set -U fish_greeting
+# Cursors
+set -U fish_cursor_insert line
+set -U fish_cursor_replace_one underscore
+set -U fish_cursor_visual block
+
 
 # Globals
 set -Ux EDITOR nvim
@@ -48,12 +53,18 @@ set -Ux NPM_CONFIG_USERCONFIG "$XDG_CONFIG_HOME/npm/config"
 set -Ux NPM_CONFIG_CACHE "$XDG_CACHE_HOME/npm"
 
 # Python
+set -Ux MAMBA_ROOT_PREFIX "$XDG_DATA_HOME/micromamba"
+set -Ux MAMBARC "$XDG_CONFIG_HOME/mamba/mambarc"
 set -Ux IPYTHONDIR "$XDG_CONFIG_HOME/jupyter"
 set -Ux JUPYTER_CONFIG_DIR "$XDG_CONFIG_HOME/jupyter"
 set -Ux PYTHON_CONFIG "$XDG_CONFIG_HOME/python"
 set -Ux MPLCONFIGDIR "$XDG_CONFIG_HOME/matplotlib"
 set -Ux PYLINTHOME "$XDG_CACHE_HOME/pylint"
 set -Ux PYTHONSTARTUP "$PYTHON_CONFIG/startup"
+set -Ux PIPX_HOME "$XDG_DATA_HOME/pipx"
+if type -q brew
+  set -Ux MAMBA_EXE (brew --prefix micromamba)/bin/micromamba
+end
 if [ (uname) = "Darwin" ]
   set -Ux PYTHON_CFLAGS "-I"(xcrun --show-sdk-path)"/usr/include"
 end

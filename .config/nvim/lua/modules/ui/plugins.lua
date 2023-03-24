@@ -52,7 +52,7 @@ plugin {
 }
 
 plugin {
-  'kyazdani42/nvim-tree.lua',
+  'nvim-tree/nvim-tree.lua',
   requires = 'kyazdani42/nvim-web-devicons',
   config = conf.tree,
 }

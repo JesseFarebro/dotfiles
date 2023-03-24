@@ -7,8 +7,16 @@ if status --is-interactive
         and fisher update
   end
 
-  # Source mamba if on macOS
-  if type -q brew; and test -f (brew --prefix)/Caskroom/mambaforge/base/bin/conda
-    eval (brew --prefix)/Caskroom/mambaforge/base/bin/conda "shell.fish" "hook" $argv | source
+  if type -q micromamba; and set -q MAMBA_ROOT_PREFIX; and set -q MAMBA_EXE
+    $MAMBA_EXE shell hook --shell fish --prefix $MAMBA_ROOT_PREFIX | source
+  end
+
+  if type -q zoxide
+    zoxide init fish | source
+  end
+
+  if type -q starship
+    starship init fish | source
+    enable_transience
   end
 end

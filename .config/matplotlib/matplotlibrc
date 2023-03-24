@@ -1,11 +1,5 @@
 # TeX preamble
 text.latex.preamble: \usepackage{jmath}
 
-# Spines
-axes.spines.left: True
-axes.spines.bottom: True
-axes.spines.top: False
-axes.spines.right: False
-
 # Animation
 animation.codec: av1
