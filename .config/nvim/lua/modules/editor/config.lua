@@ -56,4 +56,10 @@ function config.treesitter()
   })
 end
 
+function config.lightspeed()
+  vim.cmd [[
+    hi LightspeedCursor gui=reverse
+  ]]
+end
+
 return config

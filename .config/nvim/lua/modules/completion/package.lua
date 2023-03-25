@@ -1,12 +1,12 @@
-local plugin = require('core.pack').register_plugin
+local package = require('core.pack').package
 local conf = require('modules.completion.config')
 
-plugin {
+package {
   'neovim/nvim-lspconfig',
   -- used filetype to lazyload lsp
   -- config your language filetype in here
   ft = { 'lua', 'python', 'c', 'cpp', 'tex' },
-  requires = {
+  dependencies = {
     'onsails/lspkind.nvim',
     'williamboman/mason-lspconfig.nvim',
     'SmiteshP/nvim-navic',
@@ -14,39 +14,43 @@ plugin {
   config = conf.lsp,
 }
 
-plugin {
+package {
   "SmiteshP/nvim-navic",
-  requires = "neovim/nvim-lspconfig",
-  config = conf.navic,
+  dependencies = "neovim/nvim-lspconfig",
 }
 
-plugin {
+package {
   'williamboman/mason.nvim',
   config = function()
     require('mason').setup{}
   end,
 }
 
-plugin {
+package {
+  'glepnir/lspsaga.nvim',
+  event = 'BufRead',
+}
+
+package {
   'hrsh7th/nvim-cmp',
   event = 'BufReadPre',
   config = conf.cmp,
-  requires = {
-    { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-lspconfig' },
-    { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
-    { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
-    { 'saadparwaiz1/cmp_luasnip', after = { 'nvim-cmp', 'LuaSnip' } },
+  dependencies = {
+    { 'hrsh7th/cmp-nvim-lsp' },
+    { 'hrsh7th/cmp-path' },
+    { 'hrsh7th/cmp-buffer' },
+    { 'saadparwaiz1/cmp_luasnip' },
     { 'onsails/lspkind.nvim' },
   },
 }
 
-plugin {
+package {
   'github/copilot.vim',
   event = 'BufReadPre',
 }
 
-plugin {
+package {
   'L3MON4D3/LuaSnip',
-  event = 'InsertEnter',
+  event = 'InsertCharPre',
   config = conf.snip
 }

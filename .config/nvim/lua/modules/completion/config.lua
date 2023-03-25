@@ -1,35 +1,29 @@
 local config = {}
 
 function config.lsp()
-  local lsp = require('modules.completion.lsp')
   local lspconfig = require('lspconfig')
   local mason = require('mason-lspconfig')
+  local navic = require('nvim-navic')
 
   -- Setup LSP servers
-  mason.setup{}
-
-  -- Python
-  lspconfig.pyright.setup {
-    on_attach = lsp.on_attach,
-    capabilities = lsp.capabilities,
+  mason.setup_handlers {
+    function(server_name)
+      lspconfig[server_name].setup{
+        on_attach = function(client, bufnr)
+          navic.attach(client, bufnr)
+        end
+      }
+    end
   }
-
-  -- LanguageTool
-  lspconfig.ltex.setup {
-    on_attach = lsp.on_attach,
-    capabilities = lsp.capabilities
+  mason.setup {
+    ensure_installed = {
+      'pyright',
+      'ltex',
+      'lua_ls',
+      'texlab',
+      'bashls',
+    },
   }
-
-  -- Clang
-  lspconfig.clangd.setup {
-    on_attach = lsp.on_attach,
-    capabilities = lsp.capabilities,
-    cmd = { "/usr/local/opt/llvm/bin/clangd", "--background-index" }
-  }
-end
-
-function config.navic()
-  require("nvim-navic").setup{}
 end
 
 function config.cmp()
