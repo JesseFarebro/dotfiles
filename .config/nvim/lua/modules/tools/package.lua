@@ -1,47 +1,86 @@
 local package = require('core.pack').package
-local conf = require('modules.tools.config')
+local keymap = require('core.keymap')
+
+local silent, noremap = keymap.silent, keymap.noremap
+local opts = keymap.new_opts
+local cmd = keymap.cmd
+
+if vim.g.vscode ~= nil then
+  return
+end
 
 package {
   'nvim-telescope/telescope.nvim',
   cmd = 'Telescope',
-  config = conf.telescope,
+  keys = {
+    { '<Leader>b', cmd('Telescope buffers'), opts(noremap, silent), mode='n', desc='Telescope Buffers' },
+    { '<Leader>fa', cmd('Telescope live_grep'), opts(noremap, silent), mode='n', desc='Telescope Live Grep' },
+    { '<Leader>ff', cmd('Telescope find_files'), opts(noremap, silent), mode='n', desc='Telescope Files' },
+  },
   dependencies = {
     { 'nvim-lua/plenary.nvim' },
     { 'nvim-telescope/telescope-fzy-native.nvim' },
   },
+  opts = {
+    defaults = {
+      prompt_prefix = '   ',
+      selection_caret = '  ',
+      mappings = {
+        i = {
+          ['<C-j>'] = {
+            function(...)
+              return require('telescope.actions').move_selection_next(...)
+            end,
+            opts = { nowait = true, silent = true }
+          },
+          ['<C-k>'] = {
+            function(...)
+              return require('telescope.actions').move_selection_previous(...)
+            end,
+            opts = { nowait = true, silent = true }
+          },
+          ['<esc>'] = function(...)
+            return require('telescope.actions').close(...)
+          end,
+        },
+      },
+      layout_config = {
+        horizontal = { prompt_position = 'top', results_width = 0.6 },
+        vertical = { mirror = false },
+      },
+      sorting_strategy = 'ascending',
+    },
+    extensions = {
+      fzy_native = {
+        override_generic_sorter = false,
+        override_file_sorter = true,
+      },
+    },
+  },
+  config = function(_, topts)
+    local telescope = require('telescope')
+    telescope.setup(topts)
+    telescope.load_extension('fzy_native')
+  end
 }
 
 package {
   'beauwilliams/focus.nvim',
-  config = function()
-    require'focus'.setup{signcolumn = false}
-  end,
+  opts = {
+    signcolumn = false,
+  }
 }
 
-package {
-  'luukvbaal/stabilize.nvim',
-  config = function()
-    require'stabilize'.setup{}
-  end,
-}
-
-package {
-  'karb94/neoscroll.nvim',
-  config = function()
-    require'neoscroll'.setup{}
-  end,
-}
-
-package {
-  'folke/which-key.nvim',
-  config = function()
-    require'which-key'.setup{}
-  end,
-}
+package { 'luukvbaal/stabilize.nvim' }
+package { 'karb94/neoscroll.nvim' }
+package { 'folke/which-key.nvim' }
 
 package {
   "folke/zen-mode.nvim",
   cmd = 'ZenMode',
+  keys = {
+    { '<Leader>z', cmd('ZenMode'), opts(noremap, silent), mode='n', desc='Zen Mode' },
+  },
   opts = {
     window = {
       width = 0.85,

@@ -1,31 +1,5 @@
 local config = {}
 
-function config.lsp()
-  local lspconfig = require('lspconfig')
-  local mason = require('mason-lspconfig')
-  local navic = require('nvim-navic')
-
-  -- Setup LSP servers
-  mason.setup_handlers {
-    function(server_name)
-      lspconfig[server_name].setup{
-        on_attach = function(client, bufnr)
-          navic.attach(client, bufnr)
-        end
-      }
-    end
-  }
-  mason.setup {
-    ensure_installed = {
-      'pyright',
-      'ltex',
-      'lua_ls',
-      'texlab',
-      'bashls',
-    },
-  }
-end
-
 function config.cmp()
   local cmp = require('cmp')
   local lspkind = require('lspkind')
@@ -55,7 +29,15 @@ function config.cmp()
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.close(),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      ['<CR>'] = cmp.mapping({
+        i = function(fallback)
+          if cmp.visible() and cmp.get_active_entry() then
+             cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+           else
+             fallback()
+           end
+       end
+      }),
       ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' })
     },
     formatting = {
@@ -70,28 +52,6 @@ function config.cmp()
         end
       })
     }
-  })
-end
-
-function config.snip()
-  local ls = require('luasnip')
-  local types = require('luasnip.util.types')
-  ls.config.set_config({
-    history = true,
-    enable_autosnippets = true,
-    updateevents = 'TextChanged,TextChangedI',
-    ext_opts = {
-      [types.choiceNode] = {
-        active = {
-          virt_text = { { '<- choiceNode', 'Comment' } },
-        },
-      },
-    },
-  })
-  require('luasnip.loaders.from_lua').lazy_load({ paths = vim.fn.stdpath('config') .. '/snippets' })
-  require('luasnip.loaders.from_vscode').lazy_load()
-  require('luasnip.loaders.from_vscode').lazy_load({
-    paths = { './snippets/' },
   })
 end
 

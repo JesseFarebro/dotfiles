@@ -1,3 +1,5 @@
-if vim.g.vscode == nil then
-  require('core')
+require('core')
+
+if vim.g.vscode ~= nil then
+  vim.cmd("syntax off")
 end
