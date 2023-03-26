@@ -71,9 +71,9 @@ package {
   }
 }
 
-package { 'luukvbaal/stabilize.nvim' }
-package { 'karb94/neoscroll.nvim' }
-package { 'folke/which-key.nvim' }
+package { 'luukvbaal/stabilize.nvim', config = true }
+package { 'karb94/neoscroll.nvim', config = true }
+package { 'folke/which-key.nvim', config = true }
 
 package {
   "folke/zen-mode.nvim",
