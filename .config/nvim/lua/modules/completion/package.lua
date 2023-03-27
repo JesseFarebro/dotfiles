@@ -37,7 +37,7 @@ package {
 
 package {
   'williamboman/mason.nvim',
-  build = ':MasonBuild',
+  build = ':MasonUpdate',
   lazy = true,
   config = true,
 }
