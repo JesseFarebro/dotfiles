@@ -10,7 +10,7 @@ set -U fish_cursor_visual block
 
 # Globals
 set -Ux EDITOR nvim
-set -Ux MANPAGER nvim +Man!
+set -Ux MANPAGER nvim +ZenMode +Man!
 if type -q alacritty
   set -Ux TERM alacritty
 end
