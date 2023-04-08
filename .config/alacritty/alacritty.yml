@@ -86,7 +86,7 @@ font:
   # the right, increase the y offset to move the glyph upward.
   glyph_offset:
     x: 0
-    y: 3
+    y: 0
 
 colors:
   # Default colors
