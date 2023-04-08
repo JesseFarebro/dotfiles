@@ -1,8 +1,6 @@
 local package = require('core.pack').package
 local keymap = require('core.keymap')
 
-local silent, noremap = keymap.silent, keymap.noremap
-local opts = keymap.new_opts
 local cmd = keymap.cmd
 
 if vim.g.vscode ~= nil then
@@ -13,9 +11,9 @@ package {
   'nvim-telescope/telescope.nvim',
   cmd = 'Telescope',
   keys = {
-    { '<Leader>b', cmd('Telescope buffers'), opts(noremap, silent), mode='n', desc='Telescope Buffers' },
-    { '<Leader>fa', cmd('Telescope live_grep'), opts(noremap, silent), mode='n', desc='Telescope Live Grep' },
-    { '<Leader>ff', cmd('Telescope find_files'), opts(noremap, silent), mode='n', desc='Telescope Files' },
+    { '<Leader>b', cmd('Telescope buffers'), silent = true, noremap = true, mode='n', desc='Telescope Buffers' },
+    { '<Leader>fa', cmd('Telescope live_grep'), silent = true, noremap = true, mode='n', desc='Telescope Live Grep' },
+    { '<Leader>ff', cmd('Telescope find_files'), silent = true, noremap = true, mode='n', desc='Telescope Files' },
   },
   dependencies = {
     { 'nvim-lua/plenary.nvim' },
@@ -79,7 +77,7 @@ package {
   "folke/zen-mode.nvim",
   cmd = 'ZenMode',
   keys = {
-    { '<Leader>z', cmd('ZenMode'), opts(noremap, silent), mode='n', desc='Zen Mode' },
+    { '<Leader>z', cmd('ZenMode'), silent = true, noremap = true, mode='n', desc='Zen Mode' },
   },
   opts = {
     window = {

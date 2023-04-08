@@ -1,8 +1,6 @@
 local package = require('core.pack').package
 local keymap = require('core.keymap')
 
-local silent, noremap = keymap.silent, keymap.noremap
-local opts = keymap.new_opts
 local cmd = keymap.cmd
 
 if vim.g.vscode ~= nil then
@@ -66,7 +64,7 @@ package {
   dependencies = 'nvim-tree/nvim-web-devicons',
   cmd = { 'NvimTreeToggle', 'NvimTreeOpen' },
   keys = {
-    { '<Leader>\\', cmd('NvimTreeToggle'), opts(noremap, silent), mode='n', desc='Tree' }
+    { '<Leader>\\', cmd('NvimTreeToggle'), silent = true, noremap = true, mode='n', desc='Tree' }
   },
   opts = {
     disable_netrw = false,
