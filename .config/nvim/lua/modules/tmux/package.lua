@@ -6,7 +6,7 @@ if vim.g.vscode ~= nil then
   return
 end
 
-package {
+package({
   'aserowy/tmux.nvim',
   cond = vim.fn.executable('tmux'),
   keys = {
@@ -23,18 +23,18 @@ package {
   },
   opts = {
     copy_sync = {
-      enable = false
+      enable = false,
     },
     navigation = {
-      enable_default_keybindings = false
+      enable_default_keybindings = false,
     },
     resize = {
-      enable_default_keybindings = false
-    }
-  }
-}
+      enable_default_keybindings = false,
+    },
+  },
+})
 
-package {
+package({
   'christoomey/vim-tmux-runner',
   cond = vim.fn.executable('tmux'),
   keys = {
@@ -54,5 +54,5 @@ package {
     vim.g.VtrStripLeadingWhitespace = false
     vim.g.VtrClearEmptyLines = false
     vim.g.VtrAppendNewline = true
-  end
-}
+  end,
+})

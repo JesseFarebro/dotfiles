@@ -1,13 +1,12 @@
 local package = require('core.pack').package
 local keymap = require('core.keymap')
-
 local cmd = keymap.cmd
 
 if vim.g.vscode ~= nil then
   return
 end
 
-package {
+package({
   'folke/tokyonight.nvim',
   priority = 1000,
   opts = {
@@ -15,14 +14,14 @@ package {
     transparent = true,
     styles = {
       functions = { italic = true },
-      sidebars = "transparent",
-      floats = "transparent",
+      sidebars = 'transparent',
+      floats = 'transparent',
     },
     sidebars = { 'packer', 'nvim_tree', 'NvimTree', 'netrw' },
     hide_inactive_statusline = true,
     dim_inactive = true,
     on_highlights = function(hl, c)
-      local prompt = "#2d3149"
+      local prompt = '#2d3149'
       hl.TelescopeNormal = {
         bg = c.bg_dark,
         fg = c.fg_dark,
@@ -56,36 +55,36 @@ package {
     local tokyonight = require('tokyonight')
     tokyonight.setup(topts)
     vim.cmd.colorscheme('tokyonight')
-  end
-}
+  end,
+})
 
-package {
+package({
   'nvim-tree/nvim-tree.lua',
   dependencies = 'nvim-tree/nvim-web-devicons',
   cmd = { 'NvimTreeToggle', 'NvimTreeOpen' },
   keys = {
-    { '<Leader>\\', cmd('NvimTreeToggle'), silent = true, noremap = true, mode='n', desc='Tree' }
+    { '<Leader>\\', cmd('NvimTreeToggle'), silent = true, noremap = true, mode = 'n', desc = 'Tree' },
   },
   opts = {
-    disable_netrw = false,
+    disable_netrw = true,
     hijack_cursor = true,
-    hijack_netrw = true,
     view = {
       width = 35,
       hide_root_folder = true,
-      signcolumn = "no",
+      cursorline = true,
+      signcolumn = 'no',
       mappings = {
         list = {
-          { key = "sh", action = "edit_vsplit" },
-          { key = "sv", action = "edit_split" },
-          { key = "CR", action = "edit" },
-          { key = "o",  action = "o" },
-          { key = "y",  action = "copy" }
-        }
+          { key = 'sh', action = 'edit_vsplit' },
+          { key = 'sv', action = 'edit_split' },
+          { key = 'CR', action = 'edit' },
+          { key = 'o', action = 'o' },
+          { key = 'y', action = 'copy' },
+        },
       },
     },
     renderer = {
-      root_folder_modifier = ":t",
+      root_folder_modifier = ':t',
       indent_markers = {
         enable = false,
         inline_arrows = false,
@@ -95,31 +94,31 @@ package {
           file = true,
           folder = true,
           folder_arrow = true,
-          git = false
+          git = false,
         },
         glyphs = {
           folder = {
-            arrow_closed = " ",
-            arrow_open = " ",
-          }
-        }
-      }
+            arrow_closed = ' ',
+            arrow_open = ' ',
+          },
+        },
+      },
     },
     actions = {
       open_file = {
-        quit_on_open = true
-      }
-    }
+        quit_on_open = true,
+      },
+    },
   },
   config = function(_, topts)
     local tree = require('nvim-tree')
     tree.setup(topts)
 
-    vim.api.nvim_set_hl(0, 'NvimTreeNormal', { bg=nil })
-    vim.api.nvim_set_hl(0, 'NvimTreeCursorLine', { blend=90, bg="#414868", nocombine=true })
+    vim.api.nvim_set_hl(0, 'NvimTreeNormal', { bg = nil })
+    vim.api.nvim_set_hl(0, 'NvimTreeCursorLine', { blend = 90, bg = '#414868', nocombine = true })
 
     -- Disable cursor in tree
-    vim.cmd [[
+    vim.cmd([[
       autocmd BufWinEnter NvimTree* setlocal cursorlineopt=line guicursor+=n:Cursor
       autocmd BufEnter,FileType NvimTree* call NvimTreeHideCursor()
       autocmd BufLeave,BufWinLeave,WinClosed NvimTree* call NvimTreeShowCursor()
@@ -129,11 +128,11 @@ package {
       function! NvimTreeShowCursor()
           highlight! Cursor blend=NONE
       endfunction
-    ]]
-  end
-}
+    ]])
+  end,
+})
 
-package {
+package({
   'lukas-reineke/indent-blankline.nvim',
   event = 'BufRead',
   dependencies = {
@@ -142,37 +141,50 @@ package {
   },
   priority = 950,
   opts = {
-    char = "│",
-    space_char = "·",
-    space_char_blankline = " ",
+    char = '│',
+    space_char = '·',
+    space_char_blankline = ' ',
     show_current_context = true,
     show_current_context_start = false,
     show_current_context_start_on_current_line = false,
     show_first_indent_level = false,
     show_trailing_blankline_indent = false,
-    buftype_exclude = {"help", "terminal"},
-    filetype_exclude = {"text", "nofile", "prompt", "terminal", "markdown", "NvimTree", "TelescopePrompt"},
-    context_patterns = {'class', 'function', 'method', '^if', '^while', '^for', '^object', '^table', 'block', 'arguments'},
-    use_treesitter = true
-  }
-}
-
-package {
-  'nvim-lualine/lualine.nvim',
-  dependencies = {
-    'nvim-tree/nvim-web-devicons',
-    'SmiteshP/nvim-navic'
+    buftype_exclude = { 'help', 'terminal' },
+    filetype_exclude = { 'text', 'nofile', 'prompt', 'terminal', 'markdown', 'NvimTree', 'TelescopePrompt', 'Trouble' },
+    context_patterns = {
+      'class',
+      'function',
+      'method',
+      '^if',
+      '^while',
+      '^for',
+      '^object',
+      '^table',
+      'block',
+      'arguments',
+    },
+    use_treesitter = true,
   },
+})
+
+package({
+  'nvim-lualine/lualine.nvim',
+  dependencies = { 'nvim-tree/nvim-web-devicons' },
   priority = 1000,
   opts = {
     options = {
+      component_separators = { left = '', right = '' },
       theme = 'tokyonight',
+      globalstatus = true,
+      disabled_filetypes = {
+        statusline = {},
+        winbar = { 'Trouble' },
+      },
     },
     sections = {
       lualine_a = { 'mode' },
       lualine_b = { 'branch', 'diff' },
       lualine_c = {
-        'filename',
         {
           'diagnostics',
           sources = { 'nvim_diagnostic' },
@@ -182,27 +194,47 @@ package {
           symbols = {
             error = ' ',
             warn = ' ',
-            info = ' '
-          }
-        }
+            info = ' ',
+          },
+        },
       },
-      lualine_x = { 'filetype' },
+      lualine_x = { 'encoding', 'fileformat', 'filetype' },
       lualine_y = { 'progress' },
-      lualine_z = { 'location'  },
+      lualine_z = { 'location' },
     },
-    extensions = { 'nvim-tree' }
-  }
-}
+    extensions = { 'nvim-tree', 'lazy' },
+  },
+})
 
-package {
+package({
   'utilyre/barbecue.nvim',
   dependencies = {
-    "SmiteshP/nvim-navic",
-    "nvim-tree/nvim-web-devicons",
+    'SmiteshP/nvim-navic',
+    'nvim-tree/nvim-web-devicons',
   },
   priority = 900,
   opts = {
     theme = 'tokyonight',
-    exclude_filetypes = { "gitcommit", "toggleterm", "NvimTree" }
-  }
-}
+    exclude_filetypes = { 'gitcommit', 'toggleterm', 'NvimTree', 'Trouble' },
+  },
+})
+
+package({
+  'folke/trouble.nvim',
+  dependencies = {
+    'nvim-tree/nvim-web-devicons',
+  },
+  opts = {
+    indent_lines = false,
+  },
+  event = { 'LspAttach' },
+  config = function(_, opts)
+    local trouble = require('trouble')
+    trouble.setup(opts)
+
+    vim.cmd([[ autocmd FileType Trouble setlocal cc= ]])
+  end,
+  keys = {
+    { '<leader>xx', cmd('TroubleToggle'), silent = true, noremap = true, desc = 'Toggle trouble' },
+  },
+})

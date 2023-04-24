@@ -7,13 +7,12 @@ function config.cmp()
   cmp.setup({
     enabled = function()
       -- disable completion in comments
-      local context = require 'cmp.config.context'
+      local context = require('cmp.config.context')
       -- keep command mode completion enabled when cursor is in a comment
       if vim.api.nvim_get_mode().mode == 'c' then
         return true
       else
-        return not context.in_treesitter_capture("comment") 
-          and not context.in_syntax_group("Comment")
+        return not context.in_treesitter_capture('comment') and not context.in_syntax_group('Comment')
       end
     end,
     preselect = cmp.PreselectMode.Item,
@@ -22,7 +21,7 @@ function config.cmp()
       documentation = cmp.config.window.bordered(),
     },
     view = {
-      entries = 'native'
+      entries = 'native',
     },
     mapping = {
       ['<C-d>'] = cmp.mapping.scroll_docs(-4),
@@ -32,13 +31,13 @@ function config.cmp()
       ['<CR>'] = cmp.mapping({
         i = function(fallback)
           if cmp.visible() and cmp.get_active_entry() then
-             cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
-           else
-             fallback()
-           end
-       end
+            cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+          else
+            fallback()
+          end
+        end,
       }),
-      ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' })
+      ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
     },
     formatting = {
       format = lspkind.cmp_format({
@@ -47,11 +46,11 @@ function config.cmp()
 
         -- The function below will be called before any actual modifications from lspkind
         -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-        before = function (entry, vim_item)
+        before = function(entry, vim_item)
           return vim_item
-        end
-      })
-    }
+        end,
+      }),
+    },
   })
 end
 
