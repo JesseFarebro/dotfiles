@@ -75,9 +75,7 @@ set -Ux RUSTUP_HOME "$XDG_DATA_HOME/rustup"
 fish_add_path $CARGO_HOME/bin
 
 # C++
-if type -q brew
-  set -Ux VCPKG_ROOT "$XDG_DATA_HOME/vcpkg"
-end
+set -Ux VCPKG_ROOT "$XDG_DATA_HOME/vcpkg"
 
 # Aux
 set -Ux GNUPGHOME "$XDG_DATA_HOME/gnupg"
