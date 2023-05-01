@@ -72,32 +72,15 @@ package({
   },
 })
 
-package({ 'kylechui/nvim-surround' })
+package({
+  'echasnovski/mini.pairs',
+  event = 'VeryLazy',
+})
 
 package({
   'numToStr/Comment.nvim',
   keys = {
-    { 'gc', mode = { 'n', 'v', 'x' } },
     { 'gcc', mode = { 'n', 'v', 'x' } },
-    { 'gb', mode = { 'n', 'v', 'x' } },
-    {
-      '<Leader>/',
-      function()
-        require('Comment.api').toggle.linewise.current()
-      end,
-      mode = 'n',
-      desc = 'Comment',
-    },
-    {
-      '<Leader>/',
-      function()
-        local esc = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
-        vim.api.nvim_feedkeys(esc, 'nx', false)
-        require('Comment.api').toggle.linewise(vim.fn.visualmode())
-      end,
-      mode = 'v',
-      desc = 'Comment',
-    },
   },
   config = true,
 })

@@ -87,18 +87,19 @@ package({
       enable = false,
     },
     ui = {
-      border = 'single',
+      border = 'solid',
+    },
+    outline = {
+      keys = {
+        jump = 'o',
+        quit = 'q',
+      },
     },
   },
   config = function(_, opts)
     local lspsaga = require('lspsaga')
     lspsaga.setup(opts)
-
-    vim.cmd([[
-      hi CursorHide gui=reverse blend=100 guifg=NONE guibg=NONE
-      autocmd FileType lspsagaoutline setlocal cursorline cursorlineopt=line guicursor=n:Cursor
-      autocmd FileType lspsagaoutline setlocal winhighlight=CursorLine:PmenuSel,Cursor:CursorHide
-    ]])
+    vim.cmd([[ hi! SagaNormal guibg=#1f2335 blend=0 ]])
   end,
   keys = {
     { 'gh', cmd('Lspsaga lsp_finder'), desc = 'LSP finder' },
@@ -106,9 +107,7 @@ package({
     { 'gr', cmd('Lspsaga rename'), desc = 'Global rename' },
     { 'gp', cmd('Lspsaga peek_definition'), desc = 'Peak definition' },
     { 'gd', cmd('Lspsaga goto_definition'), desc = 'Goto definition' },
-    { 'gpt', cmd('Lspsaga peek_type_definition'), desc = 'Peak type definition' },
     { 'gt', cmd('Lspsaga goto_type_definition'), desc = 'Goto type definition' },
-    { '<leader>sl', cmd('Lspsaga show_line_diagnostics'), desc = 'Show line diagnostics' },
     { '[e', cmd('Lspsaga diagnostic_jump_prev'), desc = 'Previous diagnostic' },
     { ']e', cmd('Lspsaga diagnostic_jump_next'), desc = 'Next diagnostic' },
     { '<leader>o', cmd('Lspsaga outline'), desc = 'LSP outline' },
@@ -126,11 +125,21 @@ package({
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-emoji',
+    'hrsh7th/cmp-cmdline',
     'onsails/lspkind.nvim',
   },
 })
 
 package({
-  'github/copilot.vim',
+  'zbirenbaum/copilot.lua',
+  cmd = 'Copilot',
   event = 'InsertEnter',
+  opts = {
+    suggestion = {
+      enabled = true,
+      auto_trigger = true,
+      accept = false, -- nvim-cmp accepts the completion
+    },
+  },
 })

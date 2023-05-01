@@ -6,6 +6,14 @@ if vim.g.vscode ~= nil then
   return
 end
 
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = false,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+})
+
 package({
   'folke/tokyonight.nvim',
   priority = 1000,
@@ -14,12 +22,12 @@ package({
     transparent = true,
     styles = {
       functions = { italic = true },
-      sidebars = 'transparent',
-      floats = 'transparent',
+      sidebars = 'normal',
+      floats = 'normal',
     },
     sidebars = { 'packer', 'nvim_tree', 'NvimTree', 'netrw' },
     hide_inactive_statusline = true,
-    dim_inactive = true,
+    lualine_bold = true,
     on_highlights = function(hl, c)
       local prompt = '#2d3149'
       hl.TelescopeNormal = {
@@ -136,8 +144,8 @@ package({
   'lukas-reineke/indent-blankline.nvim',
   event = 'BufRead',
   dependencies = {
-    'nvim-treesitter',
-    'tokyonight.nvim',
+    'nvim-treesitter/nvim-treesitter',
+    'folke/tokyonight.nvim',
   },
   priority = 950,
   opts = {
@@ -150,7 +158,18 @@ package({
     show_first_indent_level = false,
     show_trailing_blankline_indent = false,
     buftype_exclude = { 'help', 'terminal' },
-    filetype_exclude = { 'text', 'nofile', 'prompt', 'terminal', 'markdown', 'NvimTree', 'TelescopePrompt', 'Trouble' },
+    filetype_exclude = {
+      'text',
+      'nofile',
+      'prompt',
+      'terminal',
+      'markdown',
+      'NvimTree',
+      'TelescopePrompt',
+      'Trouble',
+      'lazy',
+      'help',
+    },
     context_patterns = {
       'class',
       'function',
@@ -176,10 +195,6 @@ package({
       component_separators = { left = '', right = '' },
       theme = 'tokyonight',
       globalstatus = true,
-      disabled_filetypes = {
-        statusline = {},
-        winbar = { 'Trouble' },
-      },
     },
     sections = {
       lualine_a = { 'mode' },
@@ -198,7 +213,28 @@ package({
           },
         },
       },
-      lualine_x = { 'encoding', 'fileformat', 'filetype' },
+      lualine_x = {
+        {
+          function()
+            local status = require('copilot.api').status.data
+
+            local icons = {
+              [''] = '',
+              ['Normal'] = '',
+              ['Warning'] = '󰲼',
+              ['InProgress'] = '󰦖',
+            }
+
+            local icon = icons[status.status] or icons['']
+            return icon .. (status.message or '')
+          end,
+          cond = function()
+            local clients = vim.lsp.get_active_clients({ name = 'copilot', bufnr = 0 })
+            return #clients > 0
+          end,
+          padding = 2,
+        },
+      },
       lualine_y = { 'progress' },
       lualine_z = { 'location' },
     },
@@ -216,6 +252,48 @@ package({
   opts = {
     theme = 'tokyonight',
     exclude_filetypes = { 'gitcommit', 'toggleterm', 'NvimTree', 'Trouble' },
+  },
+})
+
+package({
+  'stevearc/dressing.nvim',
+  config = true,
+})
+
+package({
+  'lewis6991/gitsigns.nvim',
+  config = true,
+})
+
+-- https://www.lazyvim.org/plugins/editor#vim-illuminate
+package({
+  'RRethy/vim-illuminate',
+  event = { 'BufReadPost', 'BufNewFile' },
+  opts = { providers = { 'lsp', 'treesitter' } },
+  config = function(_, opts)
+    require('illuminate').configure(opts)
+
+    local function map(key, dir, buffer)
+      vim.keymap.set('n', key, function()
+        require('illuminate')['goto_' .. dir .. '_reference'](false)
+      end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. ' Reference', buffer = buffer })
+    end
+
+    map(']]', 'next')
+    map('[[', 'prev')
+
+    -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
+    vim.api.nvim_create_autocmd('FileType', {
+      callback = function()
+        local buffer = vim.api.nvim_get_current_buf()
+        map(']]', 'next', buffer)
+        map('[[', 'prev', buffer)
+      end,
+    })
+  end,
+  keys = {
+    { ']]', desc = 'Next Reference' },
+    { '[[', desc = 'Prev Reference' },
   },
 })
 

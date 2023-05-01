@@ -11,27 +11,91 @@ package({
   'nvim-telescope/telescope.nvim',
   cmd = 'Telescope',
   keys = {
+    -- Shortcuts
     {
-      '<Leader>b',
-      cmd('Telescope buffers'),
+      '<Leader>,',
+      cmd('Telescope buffers show_all_buffers=true'),
       silent = true,
       noremap = true,
-      mode = 'n',
-      desc = 'Telescope Buffers',
+      desc = 'Switch buffer',
     },
     {
-      '<Leader>fa',
+      '<Leader>:',
+      cmd('Telescope command_history'),
+      silent = true,
+      noremap = true,
+      desc = 'Command history',
+    },
+    {
+      '<Leader>/',
       cmd('Telescope live_grep'),
       silent = true,
       noremap = true,
-      mode = 'n',
-      desc = 'Telescope Live Grep',
+      desc = 'Grep (root dir)',
     },
-    { '<Leader>ff', cmd('Telescope find_files'), silent = true, noremap = true, mode = 'n', desc = 'Telescope Files' },
+    {
+      '<Leader><space>',
+      cmd('Telescope find_files'),
+      silent = true,
+      noremap = true,
+      desc = 'Files',
+    },
+    -- Finds
+    {
+      '<Leader>fb',
+      cmd('Telescope buffers'),
+      silent = true,
+      noremap = true,
+      desc = 'Buffers',
+    },
+    {
+      '<Leader>ff',
+      cmd('Telescope find_files'),
+      silent = true,
+      noremap = true,
+      desc = 'Find files',
+    },
+    {
+      '<Leader>fr',
+      cmd('Telescope oldfiles'),
+      silent = true,
+      noremap = true,
+      desc = 'Recent',
+    },
+    -- Git
+    {
+      '<Leader>gc',
+      cmd('Telescope git_commits'),
+      silent = true,
+      noremap = true,
+      desc = 'Git commits',
+    },
+    {
+      '<Leader>gs',
+      cmd('Telescope git_status'),
+      silent = true,
+      noremap = true,
+      desc = 'Git status',
+    },
+    -- Search
+    {
+      '<Leader>sb',
+      cmd('Telescope current_buffer_fuzzy_find'),
+      silent = true,
+      noremap = true,
+      desc = 'Search buffer',
+    },
+    {
+      '<Leader>ss',
+      cmd('Telescope lsp_document_symbols'),
+      silent = true,
+      noremap = true,
+      desc = 'Search symbols',
+    },
   },
   dependencies = {
-    { 'nvim-lua/plenary.nvim' },
-    { 'nvim-telescope/telescope-fzy-native.nvim' },
+    'nvim-lua/plenary.nvim',
+    'nvim-telescope/telescope-fzy-native.nvim',
   },
   opts = {
     defaults = {
@@ -93,6 +157,8 @@ package({
   keys = {
     { '<Leader>z', cmd('ZenMode'), silent = true, noremap = true, mode = 'n', desc = 'Zen Mode' },
   },
+  -- Make sure the priority is greater than other UI plugins so we can +ZenMode from the CLI
+  priority = 10000,
   opts = {
     window = {
       width = 0.85,
@@ -107,14 +173,16 @@ package({
       },
     },
     plugins = {
-      gitsigns = { enabled = false },
+      gitsigns = { enabled = true },
     },
     on_open = function(_)
+      require('barbecue.ui').toggle(false)
       vim.o.cmdheight = 1
       vim.cmd('cabbrev <buffer> q let b:quitting = 1 <bar> q')
       vim.cmd('cabbrev <buffer> wq let b:quitting = 1 <bar> wq')
     end,
     on_close = function()
+      require('barbecue.ui').toggle(true)
       if vim.b.quitting == 1 then
         vim.b.quitting = 0
         vim.cmd('q')
@@ -125,4 +193,12 @@ package({
   },
 })
 
-package({ 'lervag/vimtex' })
+package({
+  'lervag/vimtex',
+  config = function()
+    vim.g.tex_flavor = 'latex'
+    vim.g.vimtex_view_method = 'skim'
+    vim.g.vimtex_view_skim_sync = 1
+    vim.g.vimtex_view_skim_activate = 1
+  end,
+})
