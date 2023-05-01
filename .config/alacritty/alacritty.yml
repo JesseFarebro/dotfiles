@@ -41,7 +41,7 @@ window:
   decorations: transparent
 
   # Window opacity
-  opacity: 0.96
+  opacity: 0.985
 
 scrolling:
   # How many lines of scrollback to keep,
