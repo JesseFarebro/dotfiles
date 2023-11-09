@@ -1,5 +1,2 @@
-require('core')
-
-if vim.g.vscode ~= nil then
-  vim.cmd([[ syntax off ]])
-end
+-- bootstrap lazy.nvim, LazyVim and your plugins
+require("config.lazy")

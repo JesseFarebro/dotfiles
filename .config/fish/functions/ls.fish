@@ -1,5 +1,9 @@
 function ls --wraps exa
-  if type -q exa
+  if type -q lsd
+    command lsd \
+      --group-directories-first \
+      $argv
+  else if type -q exa
     command exa \
       --group-directories-first \
       --color-scale \

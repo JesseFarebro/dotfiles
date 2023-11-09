@@ -12,10 +12,10 @@ set -U fish_cursor_visual block
 set -Ux EDITOR nvim
 set -Ux MANPAGER nvim +ZenMode +Man!
 if type -q alacritty
-  set -Ux TERM alacritty
+    set -Ux TERM alacritty
 end
-if [ (uname) = "Darwin" ]
-  set -Ux BROWSER open
+if [ (uname) = Darwin ]
+    set -Ux BROWSER open
 end
 
 # XDG
@@ -23,25 +23,25 @@ set -Ux XDG_DATA_HOME "$HOME/.local/share"
 set -Ux XDG_CONFIG_HOME "$HOME/.config"
 set -Ux XDG_CACHE_HOME "$HOME/.cache"
 switch (uname)
-  case Linux
-    if test -d /run/user/(id -u)
-      set -Ux XDG_RUNTIME_DIR /run/user/(id -u)
-    else
-      set -Ux XDG_RUNTIME_DIR $TMPDIR"runtime-$USER"
-    end
-  case Darwin
-    set -Ux XDG_RUNTIME_DIR $TMPDIR"runtime-$USER"
+    case Linux
+        if test -d /run/user/(id -u)
+            set -Ux XDG_RUNTIME_DIR /run/user/(id -u)
+        else
+            set -Ux XDG_RUNTIME_DIR $TMPDIR"runtime-$USER"
+        end
+    case Darwin
+        set -Ux XDG_RUNTIME_DIR $TMPDIR"runtime-$USER"
 end
 if not test -d $XDG_RUNTIME_DIR
-  # create XDG_RUNTIME_DIR on login if not exist
-  mkdir -p $XDG_RUNTIME_DIR
+    # create XDG_RUNTIME_DIR on login if not exist
+    mkdir -p $XDG_RUNTIME_DIR
 end
 
 # User paths
 set -Ux fish_user_paths \
-  $HOME/.local/{share/bin,bin} \
-  /usr/local/{bin,sbin} \
-  /{bin,sbin}
+    $HOME/.local/{share/bin,bin} \
+    /usr/local/{bin,sbin} \
+    /{bin,sbin}
 
 # ncurses
 set -Ux TERMINFO "$XDG_DATA_HOME/terminfo"
@@ -62,12 +62,14 @@ set -Ux MPLCONFIGDIR "$XDG_CONFIG_HOME/matplotlib"
 set -Ux PYLINTHOME "$XDG_CACHE_HOME/pylint"
 set -Ux PYTHONSTARTUP "$PYTHON_CONFIG/startup"
 set -Ux PIPX_HOME "$XDG_DATA_HOME/pipx"
+set -Ux PYENV_ROOT "$XDG_DATA_HOME/pyenv"
 if type -q brew
-  set -Ux MAMBA_EXE (brew --prefix micromamba)/bin/micromamba
+    set -Ux MAMBA_EXE (brew --prefix micromamba)/bin/micromamba
 end
-if [ (uname) = "Darwin" ]
-  set -Ux PYTHON_CFLAGS "-I"(xcrun --show-sdk-path)"/usr/include"
+if [ (uname) = Darwin ]
+    set -Ux PYTHON_CFLAGS "-I"(xcrun --show-sdk-path)"/usr/include"
 end
+fish_add_path $PYENV_ROOT/bin
 
 # Rust
 set -Ux CARGO_HOME "$XDG_DATA_HOME/cargo"
@@ -81,7 +83,7 @@ set -Ux VCPKG_ROOT "$XDG_DATA_HOME/vcpkg"
 set -Ux GNUPGHOME "$XDG_DATA_HOME/gnupg"
 set -Ux TMUX_TMPDIR "$XDG_RUNTIME_DIR"
 set -Ux NVIM_LISTEN_ADDRESS "$XDG_RUNTIME_DIR/nvimsocket"
-set -Ux DOCKER_CONFIG "$XDG_CONFIG_HOME/docker"
+# set -Ux DOCKER_CONFIG "$XDG_CONFIG_HOME/docker"
 set -Ux XAUTHORITY "$XDG_RUNTIME_DIR/Xauthority"
 set -Ux TEXINPUTS ".:$XDG_DATA_HOME/texmf//:"
 
