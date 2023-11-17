@@ -2,8 +2,7 @@
 git --git-dir=$HOME/.dotfiles/.git --work-tree=$HOME reset --hard
 
 if not functions -q fisher
-    curl -sL https://git.io/fisher | source
-    fish -c "fisher update"
+    fish -c "curl -sL https://git.io/fisher | source && fisher update"
 end
 
 tide configure \
@@ -17,3 +16,4 @@ tide configure \
     --prompt_spacing=Sparse \
     --icons='Few icons' \
     --transient=Yes
+tide reload
