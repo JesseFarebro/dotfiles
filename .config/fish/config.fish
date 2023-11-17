@@ -1,9 +1,10 @@
 if status --is-interactive
+
     fish_vi_key_bindings
 
     # Bootstrap fisher
     if not functions -q fisher
-        curl -sL https://git.io/fisher | source \
+        curl -sL https://git.io/fisher | source
             and fisher update
     end
 
@@ -23,4 +24,7 @@ if status --is-interactive
 
     # direnv
     type -q direnv; and direnv hook fish | source
+
+    # devbox
+    type -q devbox; and devbox global shellenv --init-hook | source
 end

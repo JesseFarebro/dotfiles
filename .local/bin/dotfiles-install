@@ -1,0 +1,20 @@
+#!/usr/bin/env fish
+git --git-dir=$HOME/.dotfiles/.git --work-tree=$HOME reset --hard
+
+if not functions -q fisher
+  curl -sL https://git.io/fisher | source
+  fisher update
+end
+
+tide configure \
+    --auto \
+    --style=Lean \
+    --prompt_colors='True color' \
+    --show_time='12-hour format' \
+    --lean_prompt_height='Two lines' \
+    --prompt_connection=Dotted \
+    --prompt_connection_andor_frame_color=Darkest \
+    --prompt_spacing=Sparse \
+    --icons='Few icons' \
+    --transient=Yes
+
