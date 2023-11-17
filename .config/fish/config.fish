@@ -1,6 +1,8 @@
 if status --is-interactive
-
     fish_vi_key_bindings
+
+    # devbox
+    type -q devbox; and devbox global shellenv --init-hook | source
 
     # Bootstrap fisher
     if not functions -q fisher
@@ -25,6 +27,6 @@ if status --is-interactive
     # direnv
     type -q direnv; and direnv hook fish | source
 
-    # devbox
-    type -q devbox; and devbox global shellenv --init-hook | source
+    # atuin
+    type -q atuin; and atuin init fish | source
 end
