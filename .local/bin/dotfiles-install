@@ -3,7 +3,7 @@ git --git-dir=$HOME/.dotfiles/.git --work-tree=$HOME reset --hard
 
 if not functions -q fisher
     curl -sL https://git.io/fisher | source
-    fisher update >/dev/null 2>/dev/null
+    fish -c "fisher update"
 end
 
 tide configure \
