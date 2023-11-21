@@ -3,8 +3,7 @@ if status --is-interactive
 
     # Bootstrap fisher
     if not functions -q fisher
-        curl -sL https://git.io/fisher | source
-        and fisher update
+        curl -sL https://git.io/fisher | source; and fisher update
     end
 
     # Mamba
