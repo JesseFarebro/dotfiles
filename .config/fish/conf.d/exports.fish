@@ -60,7 +60,6 @@ set -Ux JUPYTER_CONFIG_DIR "$XDG_CONFIG_HOME/jupyter"
 set -Ux PYTHON_CONFIG "$XDG_CONFIG_HOME/python"
 set -Ux MPLCONFIGDIR "$XDG_CONFIG_HOME/matplotlib"
 set -Ux PYLINTHOME "$XDG_CACHE_HOME/pylint"
-set -Ux PYTHONSTARTUP "$PYTHON_CONFIG/startup"
 set -Ux PIPX_HOME "$XDG_DATA_HOME/pipx"
 set -Ux PYENV_ROOT "$XDG_DATA_HOME/pyenv"
 if type -q brew
