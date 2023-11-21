@@ -22,20 +22,7 @@ end
 set -Ux XDG_DATA_HOME "$HOME/.local/share"
 set -Ux XDG_CONFIG_HOME "$HOME/.config"
 set -Ux XDG_CACHE_HOME "$HOME/.cache"
-switch (uname)
-    case Linux
-        if test -d /run/user/(id -u)
-            set -Ux XDG_RUNTIME_DIR /run/user/(id -u)
-        else
-            set -Ux XDG_RUNTIME_DIR $TMPDIR"runtime-$USER"
-        end
-    case Darwin
-        set -Ux XDG_RUNTIME_DIR $TMPDIR"runtime-$USER"
-end
-if not test -d $XDG_RUNTIME_DIR
-    # create XDG_RUNTIME_DIR on login if not exist
-    mkdir -p $XDG_RUNTIME_DIR
-end
+set -Ux XDG_STATE_HOME "$HOME/.local/state"
 
 # User paths
 set -Ux fish_user_paths \
@@ -75,15 +62,16 @@ set -Ux CARGO_HOME "$XDG_DATA_HOME/cargo"
 set -Ux RUSTUP_HOME "$XDG_DATA_HOME/rustup"
 fish_add_path $CARGO_HOME/bin
 
+# Julia
+set -Ux JULIA_DEPOT_PATH "$XDG_DATA_HOME/julia:$JULIA_DEPOT_PATH"
+set -Ux JULIAUP_DEPOT_PATH "$XDG_DATA_HOME/julia"
+
 # C++
 set -Ux VCPKG_ROOT "$XDG_DATA_HOME/vcpkg"
 
 # Aux
 set -Ux GNUPGHOME "$XDG_DATA_HOME/gnupg"
-set -Ux TMUX_TMPDIR "$XDG_RUNTIME_DIR"
-set -Ux NVIM_LISTEN_ADDRESS "$XDG_RUNTIME_DIR/nvimsocket"
 # set -Ux DOCKER_CONFIG "$XDG_CONFIG_HOME/docker"
-set -Ux XAUTHORITY "$XDG_RUNTIME_DIR/Xauthority"
 set -Ux TEXINPUTS ".:$XDG_DATA_HOME/texmf//:"
 
 # Aux
