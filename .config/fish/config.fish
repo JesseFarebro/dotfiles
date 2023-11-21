@@ -1,9 +1,6 @@
 if status --is-interactive
     fish_vi_key_bindings
 
-    # devbox
-    type -q devbox; and devbox global shellenv --init-hook | source
-
     # Bootstrap fisher
     if not functions -q fisher
         curl -sL https://git.io/fisher | source
@@ -24,9 +21,6 @@ if status --is-interactive
     # 1Password completions
     type -q op; and op completion fish | source
 
-    # direnv
-    type -q direnv; and direnv hook fish | source
-
     # atuin
-    type -q atuin; and atuin init fish | source
+    type -q atuin; and atuin init fish --disable-up-arrow | source
 end
