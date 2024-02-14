@@ -63,7 +63,7 @@ set -Ux RUSTUP_HOME "$XDG_DATA_HOME/rustup"
 fish_add_path $CARGO_HOME/bin
 
 # Julia
-set -Ux JULIA_DEPOT_PATH "$XDG_DATA_HOME/julia:$JULIA_DEPOT_PATH"
+set -Ux JULIA_DEPOT_PATH "$XDG_DATA_HOME/julia"
 set -Ux JULIAUP_DEPOT_PATH "$XDG_DATA_HOME/julia"
 
 # C++
