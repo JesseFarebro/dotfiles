@@ -6,9 +6,13 @@ $postscript_mode = 0;
 # Use bibtex if available
 $bibtex_use = 1;
 
+$ENV{'BIBINPUTS'} .= ":$ENV{'HOME'}/.local/share/texmf/bibtex/bib";
+
 # Compile command
 $pdf_mode = 4;
+$xelatex = 'xelatex -synctex=1 -file-line-error -halt-on-error -shell-escape --interaction=nonstopmode %O %S';
 $lualatex = 'lualatex -synctex=1 -file-line-error -halt-on-error -shell-escape --interaction=nonstopmode %O %S';
+$pdflatex = $xelatex; # Set the pdflatex command to use XeLaTeX
 
 # PDF Viewer
 $pdf_previewer = 'open -a Skim -g';
