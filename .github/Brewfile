@@ -40,6 +40,9 @@ cask "rectangle"
 cask "skim"
 cask "visual-studio-code"
 cask "jupyter-notebook-viewer"
+cask "appcleaner"
+cask "karabiner-elements"
+cask "monitorcontrol"
 
 mas "Aware", id: 1082170746
 mas "Craft", id: 1487937127
