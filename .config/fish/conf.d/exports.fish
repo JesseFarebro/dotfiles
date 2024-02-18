@@ -49,6 +49,7 @@ set -Ux MPLCONFIGDIR "$XDG_CONFIG_HOME/matplotlib"
 set -Ux PYLINTHOME "$XDG_CACHE_HOME/pylint"
 set -Ux PIPX_HOME "$XDG_DATA_HOME/pipx"
 set -Ux PYENV_ROOT "$XDG_DATA_HOME/pyenv"
+set -Ux TFDS_DATA_DIR "$XDG_CACHE_HOME/tfds"
 if type -q brew
     set -Ux MAMBA_EXE (brew --prefix micromamba)/bin/micromamba
 end
