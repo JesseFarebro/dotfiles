@@ -1,7 +1,7 @@
 {
   "extras": [
     "lazyvim.plugins.extras.lang.markdown",
-    "lazyvim.plugins.extras.lang.python-semshi"
+    "lazyvim.plugins.extras.lang.tex"
   ],
   "news": {
     "NEWS.md": "2123"
