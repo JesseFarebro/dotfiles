@@ -16,3 +16,19 @@ dotfiles config status.showUntrackedFiles no
 . ~/.config/fish/config.fish
 ```
 
+## MacOS Settings
+
+```
+# Expand save panel by default
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+
+# Expand print panel by default
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+
+# Fast key repeat
+defaults write NSGlobalDomain KeyRepeat -int 2
+
+# Shorter delay until key repeat
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
+
+```

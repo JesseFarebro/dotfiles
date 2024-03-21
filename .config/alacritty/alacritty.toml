@@ -80,7 +80,7 @@ history = 0
 multiplier = 3
 
 [shell]
-program = "/bin/zsh"
+program = "/opt/homebrew/bin/fish"
 args = ["-l", "-c", "tmux -2 new-session -A -s default"]
 
 [window]
