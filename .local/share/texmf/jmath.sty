@@ -10,6 +10,15 @@
 \RequirePackage{mleftright}
 \RequirePackage{xparse}
 \RequirePackage{mathrsfs}
+% \RequirePackage{dsfont}
+% \RequirePackageWithOptions{mathalfa}[bb=dsserif]
+% \RequirePackage{bm}
+% \RequirePackage{unicode-math}
+% \RequirePackageWithOptions{newpxmath}[varbb]
+% \RequirePackage{newtxmath}
+
+\DeclareMathAlphabet{\mathmybb}{U}{bbold}{m}{n}
+\newcommand{\1}{\mathmybb{1}}
 
 \DeclarePairedDelimiter{\parens}{\lparen}{\rparen}
 
@@ -68,6 +77,17 @@
     \mathlarger{
       \mleft.\vphantom{#2}\mright\rbrack
     }
+  }
+}
+
+\NewDocumentCommand{\ind}{m}{%
+  \mathop{}\!\boldsymbol{\mathmybb{1}}
+  \mathord{
+    \{
+  }
+  #1
+  \mathord{
+    \}
   }
 }
 

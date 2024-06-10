@@ -8,7 +8,7 @@ function op-sync-ssh-keys
         set --local title (echo $entry | jq -r '.title')
         set --local public_key (echo $entry | jq -r '.public_key')
 
-        set --local filename (string replace -r ' ' '-' (string lower $title))
+        set --local filename (string replace -ar ' ' '-' (string lower $title))
         if test -n "$public_key"
             echo $public_key >~/.ssh/op-$filename.pub
             chmod 600 ~/.ssh/op-$filename.pub

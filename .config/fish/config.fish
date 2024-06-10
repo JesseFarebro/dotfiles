@@ -19,7 +19,4 @@ if status --is-interactive
 
     # 1Password completions
     type -q op; and op completion fish | source
-
-    # atuin
-    type -q atuin; and atuin init fish --disable-up-arrow | source
 end
