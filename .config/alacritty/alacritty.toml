@@ -1,3 +1,4 @@
+[general]
 live_config_reload = true
 
 [bell]
@@ -79,7 +80,7 @@ y = 0
 history = 0
 multiplier = 3
 
-[shell]
+[terminal.shell]
 program = "/opt/homebrew/bin/fish"
 args = ["-l", "-c", "tmux -2 new-session -A -s default"]
 

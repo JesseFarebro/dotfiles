@@ -7,12 +7,11 @@ set -U fish_cursor_insert line
 set -U fish_cursor_replace_one underscore
 set -U fish_cursor_visual block
 
-
 # Globals
 set -Ux EDITOR nvim
 set -Ux MANPAGER nvim +ZenMode +Man!
-if type -q alacritty
-    set -Ux TERM alacritty
+if type -q ghostty
+    set -Ux TERM ghostty
 end
 if [ (uname) = Darwin ]
     set -Ux BROWSER open
@@ -49,7 +48,6 @@ set -Ux PYTHON_HISTORY "$XDG_STATE_HOME/python/history"
 set -Ux MPLCONFIGDIR "$XDG_CONFIG_HOME/matplotlib"
 set -Ux PYLINTHOME "$XDG_CACHE_HOME/pylint"
 set -Ux PIPX_HOME "$XDG_DATA_HOME/pipx"
-set -Ux PYENV_ROOT "$XDG_DATA_HOME/pyenv"
 set -Ux TFDS_DATA_DIR "$XDG_CACHE_HOME/tfds"
 if type -q brew
     set -Ux MAMBA_EXE (brew --prefix micromamba)/bin/micromamba
@@ -57,7 +55,6 @@ end
 if [ (uname) = Darwin ]
     set -Ux PYTHON_CFLAGS "-I"(xcrun --show-sdk-path)"/usr/include"
 end
-fish_add_path $PYENV_ROOT/bin
 
 # Rust
 set -Ux CARGO_HOME "$XDG_DATA_HOME/cargo"
