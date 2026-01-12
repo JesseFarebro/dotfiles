@@ -1,10 +1,13 @@
+auto-update-channel = tip
+
 font-size = 14
 font-thicken = true
-font-family = "ComicCodeLigatures Nerd Font"
+font-family = "Comic Code Ligatures"
 
-theme = "light:tokyonight-storm,dark:tokyonight-storm"
+theme = "light:TokyoNight Storm,dark:TokyoNight Storm"
 
-background-opacity = 1.0
+background-opacity = 0.925
+# background-blur = "macos-glass-regular"
 background-blur-radius = 20
 
 window-height = 30
@@ -17,7 +20,7 @@ window-save-state = always
 bold-is-bright = true
 
 # quick-terminal-screen = "macos-menu-bar"
-quick-terminal-animation-duration = 0.15
+quick-terminal-animation-duration = 0.0
 
 macos-titlebar-style = "tabs"
 
