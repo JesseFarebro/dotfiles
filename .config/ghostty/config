@@ -1,5 +1,3 @@
-auto-update-channel = tip
-
 font-size = 14
 font-thicken = true
 font-family = "Comic Code Ligatures"
@@ -37,3 +35,7 @@ keybind = ctrl+[=goto_split:next
 keybind = ctrl+]=goto_split:previous
 
 keybind = global:super+`=toggle_quick_terminal
+
+clipboard-write = allow
+clipboard-read = ask
+clipboard-paste-protection = false
